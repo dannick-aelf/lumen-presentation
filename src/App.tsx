@@ -587,7 +587,6 @@ function App() {
 
       case 'metric':
         const details = popupData.data.details as string[]
-        const hasSections = details.some(d => d && !d.startsWith('•') && !d.startsWith('  •') && d.length > 0 && !d.match(/^[\s\u00A0]*$/))
         
         return (
           <div className="space-y-4 sm:space-y-5">
