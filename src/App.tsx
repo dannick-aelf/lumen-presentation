@@ -422,18 +422,20 @@ function App() {
         const competitor = popupData.data as Competitor
         return (
           <div className="space-y-6">
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-3">{competitor.name}</h3>
-              <div className="text-gray-400 text-lg">{competitor.category}</div>
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-2xl font-bold text-white mb-2">{competitor.name}</h3>
+                <div className="text-gray-400 text-lg">{competitor.category}</div>
+              </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-4 gap-6">
               <div>
                 <div className="text-sm text-gray-400 mb-2">Market Share</div>
-                <div className="text-xl font-bold text-white">{competitor.marketShare}%</div>
+                <div className="text-2xl font-bold text-white">{competitor.marketShare}%</div>
               </div>
               <div>
                 <div className="text-sm text-gray-400 mb-2">Users</div>
-                <div className="text-xl font-bold text-white">{competitor.users}</div>
+                <div className="text-2xl font-bold text-white">{competitor.users}</div>
               </div>
               <div>
                 <div className="text-sm text-gray-400 mb-2">Pricing</div>
@@ -444,33 +446,35 @@ function App() {
                 <div className="text-lg text-white leading-relaxed">{competitor.positioning}</div>
               </div>
             </div>
-            <div>
-              <h4 className="text-lg font-semibold text-emerald-400 mb-4 flex items-center gap-2">
-                <TrendingUp className="w-5 h-5" />
-                Strengths
-              </h4>
-              <ul className="space-y-4">
-                {competitor.strengths.map((strength, i) => (
-                  <li key={i} className="text-gray-300 flex items-start gap-3 leading-7 text-base">
-                    <span className="text-emerald-400 mt-1">•</span>
-                    <span>{strength}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold text-red-400 mb-4 flex items-center gap-2">
-                <TrendingDown className="w-5 h-5" />
-                Weaknesses
-              </h4>
-              <ul className="space-y-4">
-                {competitor.weaknesses.map((weakness, i) => (
-                  <li key={i} className="text-gray-300 flex items-start gap-3 leading-7 text-base">
-                    <span className="text-red-400 mt-1">•</span>
-                    <span>{weakness}</span>
-                  </li>
-                ))}
-              </ul>
+            <div className="grid grid-cols-2 gap-8">
+              <div>
+                <h4 className="text-lg font-semibold text-emerald-400 mb-4 flex items-center gap-2">
+                  <TrendingUp className="w-5 h-5" />
+                  Strengths
+                </h4>
+                <ul className="space-y-3">
+                  {competitor.strengths.map((strength, i) => (
+                    <li key={i} className="text-gray-300 flex items-start gap-3 leading-7 text-base">
+                      <span className="text-emerald-400 mt-1">•</span>
+                      <span>{strength}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h4 className="text-lg font-semibold text-red-400 mb-4 flex items-center gap-2">
+                  <TrendingDown className="w-5 h-5" />
+                  Weaknesses
+                </h4>
+                <ul className="space-y-3">
+                  {competitor.weaknesses.map((weakness, i) => (
+                    <li key={i} className="text-gray-300 flex items-start gap-3 leading-7 text-base">
+                      <span className="text-red-400 mt-1">•</span>
+                      <span>{weakness}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
             <div className="pt-6 border-t border-gray-700">
               <div className="text-base text-gray-400 leading-7">
@@ -491,7 +495,7 @@ function App() {
             <div>
               <h3 className="text-2xl font-bold text-white mb-4">{segment.name}</h3>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-4 gap-6">
               <div>
                 <div className="text-sm text-gray-400 mb-2">Market Size</div>
                 <div className="text-2xl font-bold text-white">{segment.size}</div>
@@ -501,13 +505,15 @@ function App() {
                 <div className="text-2xl font-bold text-emerald-400">{segment.growth}</div>
               </div>
             </div>
-            <div>
-              <h4 className="text-lg font-semibold text-white mb-4">Opportunity</h4>
-              <p className="text-gray-300 leading-7 text-base">{segment.opportunity}</p>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold text-white mb-4">Lumen Fit</h4>
-              <p className="text-gray-300 leading-7 text-base">{segment.lumenFit}</p>
+            <div className="grid grid-cols-2 gap-8">
+              <div>
+                <h4 className="text-lg font-semibold text-white mb-4">Opportunity</h4>
+                <p className="text-gray-300 leading-7 text-base">{segment.opportunity}</p>
+              </div>
+              <div>
+                <h4 className="text-lg font-semibold text-white mb-4">Lumen Fit</h4>
+                <p className="text-gray-300 leading-7 text-base">{segment.lumenFit}</p>
+              </div>
             </div>
             <div className="pt-6 border-t border-gray-700">
               <div className="text-base text-gray-400 leading-7">
@@ -524,9 +530,9 @@ function App() {
         return (
           <div className="space-y-4">
             <h3 className="text-2xl font-bold text-white mb-6">{popupData.data.title}</h3>
-            <div className="text-gray-300 space-y-5">
+            <div className="text-gray-300 space-y-5 columns-2 gap-8">
               {popupData.data.details.map((detail: string, i: number) => (
-                <p key={i} className="leading-7 text-base">{detail || '\u00A0'}</p>
+                <p key={i} className="leading-7 text-base break-inside-avoid mb-5">{detail || '\u00A0'}</p>
               ))}
             </div>
           </div>
@@ -536,9 +542,9 @@ function App() {
         return (
           <div className="space-y-4">
             <h3 className="text-2xl font-bold text-white mb-6">{popupData.data.title}</h3>
-            <div className="text-gray-300 space-y-5">
+            <div className="text-gray-300 space-y-5 columns-2 gap-8">
               {popupData.data.details.map((detail: string, i: number) => (
-                <p key={i} className={`leading-7 text-base ${detail.startsWith('•') ? 'ml-4' : detail.startsWith('  •') ? 'ml-8' : ''}`}>
+                <p key={i} className={`leading-7 text-base break-inside-avoid mb-5 ${detail.startsWith('•') ? 'ml-4' : detail.startsWith('  •') ? 'ml-8' : ''}`}>
                   {detail || '\u00A0'}
                 </p>
               ))}
@@ -1604,7 +1610,7 @@ function App() {
           onClick={() => setPopupData({ type: null })}
         >
           <div
-            className="bg-gray-900 rounded-3xl p-8 max-w-3xl w-full max-h-[90vh] overflow-y-auto border border-gray-700 shadow-2xl"
+            className="bg-gray-900 rounded-3xl p-8 max-w-6xl w-full max-h-[90vh] overflow-y-auto border border-gray-700 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-6">
