@@ -73,7 +73,7 @@ function App() {
       pricing: 'Freemium ($4.99/month premium)',
       users: '20M+',
       positioning: 'Astrology & horoscope readings',
-      imageUrl: 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=400&h=300&fit=crop&q=80'
+      imageUrl: `${import.meta.env.BASE_URL}co-star.png`
     },
     {
       name: 'The Pattern',
@@ -84,7 +84,7 @@ function App() {
       pricing: 'Freemium ($9.99/month)',
       users: '8M+',
       positioning: 'Pattern-based astrology & compatibility',
-      imageUrl: 'https://images.unsplash.com/photo-1502134249126-9f3755a50d78?w=400&h=300&fit=crop&q=80'
+      imageUrl: `${import.meta.env.BASE_URL}the-pattern.webp`
     },
     {
       name: 'Sanctuary',
@@ -95,7 +95,7 @@ function App() {
       pricing: 'Subscription ($12.99/month)',
       users: '5M+',
       positioning: 'Holistic wellness & meditation',
-      imageUrl: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&h=300&fit=crop&q=80'
+      imageUrl: `${import.meta.env.BASE_URL}sanctuary.png`
     },
     {
       name: 'Headspace',
@@ -106,7 +106,7 @@ function App() {
       pricing: 'Subscription ($12.99/month)',
       users: '70M+',
       positioning: 'Meditation & mindfulness',
-      imageUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&q=80'
+      imageUrl: `${import.meta.env.BASE_URL}headspace.png`
     },
     {
       name: 'Calm',
@@ -117,7 +117,7 @@ function App() {
       pricing: 'Subscription ($14.99/month)',
       users: '100M+',
       positioning: 'Sleep, meditation & wellness',
-      imageUrl: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop&q=80'
+      imageUrl: `${import.meta.env.BASE_URL}calm.png`
     },
     {
       name: 'Habitica',
@@ -128,7 +128,7 @@ function App() {
       pricing: 'Freemium ($9.99/month)',
       users: '4M+',
       positioning: 'Gamified habit & goal tracking',
-      imageUrl: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400&h=300&fit=crop&q=80'
+      imageUrl: `${import.meta.env.BASE_URL}habitica.png`
     }
   ]
 
@@ -421,69 +421,97 @@ function App() {
       case 'competitor':
         const competitor = popupData.data as Competitor
         return (
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-2xl font-bold text-white mb-2">{competitor.name}</h3>
-                <div className="text-gray-400 text-lg">{competitor.category}</div>
+          <div className="space-y-4 sm:space-y-5">
+            {/* Header Section */}
+            <div className="flex items-start gap-4 pb-4 border-b border-gray-700">
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-2">
+                  <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 text-purple-400" />
+                  <h3 className="text-lg sm:text-xl font-bold text-white">{competitor.name}</h3>
+                </div>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="px-2 py-1 bg-gray-800 text-gray-300 rounded-md text-xs font-medium">{competitor.category}</span>
+                  <span className="px-2 py-1 bg-purple-500/20 text-purple-300 rounded-md text-xs font-medium">{competitor.marketShare}% Market Share</span>
+                </div>
               </div>
             </div>
-            <div className="grid grid-cols-4 gap-6">
-              <div>
-                <div className="text-sm text-gray-400 mb-2">Market Share</div>
-                <div className="text-2xl font-bold text-white">{competitor.marketShare}%</div>
+
+            {/* Key Metrics Grid */}
+            <div className="grid grid-cols-4 gap-3 sm:gap-4">
+              <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
+                <div className="flex items-center gap-2 mb-2">
+                  <PieChart className="w-4 h-4 text-blue-400" />
+                  <div className="text-xs text-gray-400">Market Share</div>
+                </div>
+                <div className="text-xl sm:text-2xl font-bold text-white">{competitor.marketShare}%</div>
               </div>
-              <div>
-                <div className="text-sm text-gray-400 mb-2">Users</div>
-                <div className="text-2xl font-bold text-white">{competitor.users}</div>
+              <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
+                <div className="flex items-center gap-2 mb-2">
+                  <Users className="w-4 h-4 text-emerald-400" />
+                  <div className="text-xs text-gray-400">Users</div>
+                </div>
+                <div className="text-xl sm:text-2xl font-bold text-white">{competitor.users}</div>
               </div>
-              <div>
-                <div className="text-sm text-gray-400 mb-2">Pricing</div>
-                <div className="text-lg text-white leading-relaxed">{competitor.pricing}</div>
+              <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
+                <div className="flex items-center gap-2 mb-2">
+                  <DollarSign className="w-4 h-4 text-yellow-400" />
+                  <div className="text-xs text-gray-400">Pricing</div>
+                </div>
+                <div className="text-xs sm:text-sm text-white leading-tight">{competitor.pricing}</div>
               </div>
-              <div>
-                <div className="text-sm text-gray-400 mb-2">Positioning</div>
-                <div className="text-lg text-white leading-relaxed">{competitor.positioning}</div>
+              <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
+                <div className="flex items-center gap-2 mb-2">
+                  <Target className="w-4 h-4 text-pink-400" />
+                  <div className="text-xs text-gray-400">Positioning</div>
+                </div>
+                <div className="text-xs sm:text-sm text-white leading-tight">{competitor.positioning}</div>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-8">
-              <div>
-                <h4 className="text-lg font-semibold text-emerald-400 mb-4 flex items-center gap-2">
-                  <TrendingUp className="w-5 h-5" />
+
+            {/* Strengths & Weaknesses */}
+            <div className="grid grid-cols-2 gap-4 sm:gap-5">
+              <div className="bg-emerald-500/10 rounded-lg p-4 border border-emerald-500/20">
+                <h4 className="text-sm sm:text-base font-semibold text-emerald-400 mb-3 flex items-center gap-2">
+                  <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5" />
                   Strengths
                 </h4>
-                <ul className="space-y-3">
+                <ul className="space-y-2">
                   {competitor.strengths.map((strength, i) => (
-                    <li key={i} className="text-gray-300 flex items-start gap-3 leading-7 text-base">
-                      <span className="text-emerald-400 mt-1">•</span>
+                    <li key={i} className="flex items-start gap-2 text-gray-300 text-xs sm:text-sm leading-relaxed">
+                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 flex-shrink-0" />
                       <span>{strength}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-              <div>
-                <h4 className="text-lg font-semibold text-red-400 mb-4 flex items-center gap-2">
-                  <TrendingDown className="w-5 h-5" />
+              <div className="bg-red-500/10 rounded-lg p-4 border border-red-500/20">
+                <h4 className="text-sm sm:text-base font-semibold text-red-400 mb-3 flex items-center gap-2">
+                  <TrendingDown className="w-4 h-4 sm:w-5 sm:h-5" />
                   Weaknesses
                 </h4>
-                <ul className="space-y-3">
+                <ul className="space-y-2">
                   {competitor.weaknesses.map((weakness, i) => (
-                    <li key={i} className="text-gray-300 flex items-start gap-3 leading-7 text-base">
-                      <span className="text-red-400 mt-1">•</span>
+                    <li key={i} className="flex items-start gap-2 text-gray-300 text-xs sm:text-sm leading-relaxed">
+                      <div className="w-1.5 h-1.5 rounded-full bg-red-400 mt-1.5 flex-shrink-0" />
                       <span>{weakness}</span>
                     </li>
                   ))}
                 </ul>
               </div>
             </div>
-            <div className="pt-6 border-t border-gray-700">
-              <div className="text-base text-gray-400 leading-7">
-                <strong className="text-white">Competitive Analysis:</strong> {competitor.name} represents{' '}
-                {competitor.marketShare}% of the market with {competitor.users} users. Their{' '}
+
+            {/* Analysis Summary */}
+            <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
+              <div className="flex items-start gap-2 mb-2">
+                <Sparkles className="w-4 h-4 text-purple-400 mt-0.5 flex-shrink-0" />
+                <h4 className="text-sm font-semibold text-white">Competitive Analysis</h4>
+              </div>
+              <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
+                {competitor.name} represents {competitor.marketShare}% of the market with {competitor.users} users. Their{' '}
                 {competitor.category.toLowerCase()} positioning focuses on {competitor.positioning.toLowerCase()}. Key differentiators include {competitor.strengths[0].toLowerCase()} and{' '}
                 {competitor.strengths[1].toLowerCase()}, while their main challenges are{' '}
                 {competitor.weaknesses[0].toLowerCase()} and {competitor.weaknesses[1].toLowerCase()}.
-              </div>
+              </p>
             </div>
           </div>
         )
@@ -491,63 +519,200 @@ function App() {
       case 'market':
         const segment = popupData.data as MarketSegment
         return (
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-4">{segment.name}</h3>
-            </div>
-            <div className="grid grid-cols-4 gap-6">
-              <div>
-                <div className="text-sm text-gray-400 mb-2">Market Size</div>
-                <div className="text-2xl font-bold text-white">{segment.size}</div>
-              </div>
-              <div>
-                <div className="text-sm text-gray-400 mb-2">Growth Rate</div>
-                <div className="text-2xl font-bold text-emerald-400">{segment.growth}</div>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-8">
-              <div>
-                <h4 className="text-lg font-semibold text-white mb-4">Opportunity</h4>
-                <p className="text-gray-300 leading-7 text-base">{segment.opportunity}</p>
-              </div>
-              <div>
-                <h4 className="text-lg font-semibold text-white mb-4">Lumen Fit</h4>
-                <p className="text-gray-300 leading-7 text-base">{segment.lumenFit}</p>
+          <div className="space-y-4 sm:space-y-5">
+            {/* Header Section */}
+            <div className="flex items-start gap-4 pb-4 border-b border-gray-700">
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-2">
+                  <Globe className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" />
+                  <h3 className="text-lg sm:text-xl font-bold text-white">{segment.name}</h3>
+                </div>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="px-2 py-1 bg-blue-500/20 text-blue-300 rounded-md text-xs font-medium">Market Segment</span>
+                  <span className="px-2 py-1 bg-emerald-500/20 text-emerald-300 rounded-md text-xs font-medium">{segment.growth} Growth</span>
+                </div>
               </div>
             </div>
-            <div className="pt-6 border-t border-gray-700">
-              <div className="text-base text-gray-400 leading-7">
-                <strong className="text-white">Market Analysis:</strong> The {segment.name.toLowerCase()} segment
-                represents a {segment.size} market opportunity with {segment.growth} growth. This segment aligns{' '}
+
+            {/* Key Metrics */}
+            <div className="grid grid-cols-2 gap-4 sm:gap-5">
+              <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
+                <div className="flex items-center gap-2 mb-2">
+                  <DollarSign className="w-4 h-4 text-yellow-400" />
+                  <div className="text-xs text-gray-400">Market Size</div>
+                </div>
+                <div className="text-2xl sm:text-3xl font-bold text-white">{segment.size}</div>
+              </div>
+              <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
+                <div className="flex items-center gap-2 mb-2">
+                  <TrendingUp className="w-4 h-4 text-emerald-400" />
+                  <div className="text-xs text-gray-400">Growth Rate</div>
+                </div>
+                <div className="text-2xl sm:text-3xl font-bold text-emerald-400">{segment.growth}</div>
+              </div>
+            </div>
+
+            {/* Opportunity & Fit */}
+            <div className="grid grid-cols-2 gap-4 sm:gap-5">
+              <div className="bg-blue-500/10 rounded-lg p-4 border border-blue-500/20">
+                <div className="flex items-center gap-2 mb-3">
+                  <Rocket className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
+                  <h4 className="text-sm sm:text-base font-semibold text-white">Opportunity</h4>
+                </div>
+                <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">{segment.opportunity}</p>
+              </div>
+              <div className="bg-purple-500/10 rounded-lg p-4 border border-purple-500/20">
+                <div className="flex items-center gap-2 mb-3">
+                  <Target className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" />
+                  <h4 className="text-sm sm:text-base font-semibold text-white">Lumen Fit</h4>
+                </div>
+                <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">{segment.lumenFit}</p>
+              </div>
+            </div>
+
+            {/* Analysis Summary */}
+            <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
+              <div className="flex items-start gap-2 mb-2">
+                <BarChart3 className="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" />
+                <h4 className="text-sm font-semibold text-white">Market Analysis</h4>
+              </div>
+              <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
+                The {segment.name.toLowerCase()} segment represents a {segment.size} market opportunity with {segment.growth} growth. This segment aligns{' '}
                 {segment.lumenFit.toLowerCase()} with Lumen's core value proposition, making it a strategic target for
                 market entry and expansion.
-              </div>
+              </p>
             </div>
           </div>
         )
 
       case 'metric':
+        const details = popupData.data.details as string[]
+        const hasSections = details.some(d => d && !d.startsWith('•') && !d.startsWith('  •') && d.length > 0 && !d.match(/^[\s\u00A0]*$/))
+        
         return (
-          <div className="space-y-4">
-            <h3 className="text-2xl font-bold text-white mb-6">{popupData.data.title}</h3>
-            <div className="text-gray-300 space-y-5 columns-2 gap-8">
-              {popupData.data.details.map((detail: string, i: number) => (
-                <p key={i} className="leading-7 text-base break-inside-avoid mb-5">{detail || '\u00A0'}</p>
-              ))}
+          <div className="space-y-4 sm:space-y-5">
+            {/* Header */}
+            <div className="flex items-center gap-3 pb-4 border-b border-gray-700">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
+                <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+              </div>
+              <h3 className="text-lg sm:text-xl font-bold text-white">{popupData.data.title}</h3>
+            </div>
+
+            {/* Content */}
+            <div className="space-y-4">
+              {details.map((detail: string, i: number) => {
+                if (!detail || detail.match(/^[\s\u00A0]*$/)) {
+                  return <div key={i} className="h-2" />
+                }
+                
+                const isHeading = detail.length > 0 && !detail.startsWith('•') && !detail.startsWith('  •') && !detail.includes(':') && detail.length < 60
+                const isSubheading = detail.includes(':') && !detail.startsWith('•')
+                const isBullet = detail.startsWith('•') || detail.startsWith('  •')
+                const indent = detail.startsWith('  •') ? 2 : detail.startsWith('•') ? 1 : 0
+
+                if (isHeading) {
+                  return (
+                    <div key={i} className="flex items-center gap-2 pt-2">
+                      <div className="w-1 h-6 bg-gradient-to-b from-purple-500 to-pink-500 rounded-full" />
+                      <h4 className="text-sm sm:text-base font-semibold text-white">{detail}</h4>
+                    </div>
+                  )
+                }
+
+                if (isSubheading) {
+                  const [label, ...rest] = detail.split(':')
+                  return (
+                    <div key={i} className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Zap className="w-4 h-4 text-yellow-400" />
+                        <h5 className="text-xs sm:text-sm font-semibold text-white">{label}:</h5>
+                      </div>
+                      <p className="text-xs sm:text-sm text-gray-300 leading-relaxed ml-6">{rest.join(':').trim()}</p>
+                    </div>
+                  )
+                }
+
+                if (isBullet) {
+                  return (
+                    <div key={i} className={`flex items-start gap-3 ${indent === 2 ? 'ml-4' : ''}`}>
+                      <div className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${indent === 2 ? 'bg-purple-400' : 'bg-cyan-400'}`} />
+                      <p className="text-xs sm:text-sm text-gray-300 leading-relaxed flex-1">{detail.replace(/^[\s•]*/, '')}</p>
+                    </div>
+                  )
+                }
+
+                return (
+                  <p key={i} className="text-xs sm:text-sm text-gray-300 leading-relaxed">{detail}</p>
+                )
+              })}
             </div>
           </div>
         )
 
       case 'feature':
+        const featureDetails = popupData.data.details as string[]
+        
         return (
-          <div className="space-y-4">
-            <h3 className="text-2xl font-bold text-white mb-6">{popupData.data.title}</h3>
-            <div className="text-gray-300 space-y-5 columns-2 gap-8">
-              {popupData.data.details.map((detail: string, i: number) => (
-                <p key={i} className={`leading-7 text-base break-inside-avoid mb-5 ${detail.startsWith('•') ? 'ml-4' : detail.startsWith('  •') ? 'ml-8' : ''}`}>
-                  {detail || '\u00A0'}
-                </p>
-              ))}
+          <div className="space-y-4 sm:space-y-5">
+            {/* Header */}
+            <div className="flex items-center gap-3 pb-4 border-b border-gray-700">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center flex-shrink-0">
+                <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+              </div>
+              <h3 className="text-lg sm:text-xl font-bold text-white">{popupData.data.title}</h3>
+            </div>
+
+            {/* Content */}
+            <div className="space-y-4">
+              {featureDetails.map((detail: string, i: number) => {
+                if (!detail || detail.match(/^[\s\u00A0]*$/)) {
+                  return <div key={i} className="h-2" />
+                }
+                
+                const isHeading = detail.length > 0 && !detail.startsWith('•') && !detail.startsWith('  •') && !detail.includes(':') && detail.length < 60 && /^\d+\./.test(detail)
+                const isSubheading = detail.includes(':') && !detail.startsWith('•')
+                const isBullet = detail.startsWith('•') || detail.startsWith('  •')
+                const indent = detail.startsWith('  •') ? 2 : detail.startsWith('•') ? 1 : 0
+
+                if (isHeading) {
+                  const number = detail.match(/^\d+\./)?.[0]
+                  return (
+                    <div key={i} className="flex items-start gap-3 pt-2">
+                      <div className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center flex-shrink-0">
+                        <span className="text-xs font-bold text-emerald-400">{number?.replace('.', '')}</span>
+                      </div>
+                      <h4 className="text-sm sm:text-base font-semibold text-white pt-0.5">{detail.replace(/^\d+\.\s*/, '')}</h4>
+                    </div>
+                  )
+                }
+
+                if (isSubheading) {
+                  const [label, ...rest] = detail.split(':')
+                  return (
+                    <div key={i} className="bg-gray-800/50 rounded-lg p-3 border border-gray-700 ml-9">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Target className="w-3 h-3 text-emerald-400" />
+                        <h5 className="text-xs sm:text-sm font-semibold text-white">{label}:</h5>
+                      </div>
+                      <p className="text-xs sm:text-sm text-gray-300 leading-relaxed ml-5">{rest.join(':').trim()}</p>
+                    </div>
+                  )
+                }
+
+                if (isBullet) {
+                  return (
+                    <div key={i} className={`flex items-start gap-3 ${indent === 2 ? 'ml-9' : 'ml-9'}`}>
+                      <div className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${indent === 2 ? 'bg-teal-400' : 'bg-emerald-400'}`} />
+                      <p className="text-xs sm:text-sm text-gray-300 leading-relaxed flex-1">{detail.replace(/^[\s•]*/, '')}</p>
+                    </div>
+                  )
+                }
+
+                return (
+                  <p key={i} className="text-xs sm:text-sm text-gray-300 leading-relaxed">{detail}</p>
+                )
+              })}
             </div>
           </div>
         )
@@ -558,20 +723,20 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen transition-colors duration-500 dark bg-gradient-to-br from-black via-gray-900 to-black">
+    <div className="h-screen overflow-hidden transition-colors duration-500 dark bg-gradient-to-br from-black via-gray-900 to-black flex flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-white/60 dark:bg-black/60 backdrop-blur-md border-b border-gray-100 dark:border-gray-800">
-        <nav className="max-w-7xl mx-auto px-6 py-3">
+      <header className="flex-shrink-0 z-50 bg-white/60 dark:bg-black/60 backdrop-blur-md border-b border-gray-100 dark:border-gray-800">
+        <nav className="max-w-7xl mx-auto px-4 py-2">
           <div className="flex items-center justify-between">
-            <h1 className="text-lg font-medium text-gray-900 dark:text-gray-100">
+            <h1 className="text-base sm:text-lg font-medium text-gray-900 dark:text-gray-100">
               Lumen Market Research
             </h1>
             <button
               onClick={generatePDFReport}
-              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white text-black hover:bg-gray-100 transition-colors duration-200 text-sm font-medium"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white text-black hover:bg-gray-100 transition-colors duration-200 text-xs sm:text-sm font-medium"
               aria-label="Download PDF Report"
             >
-              <Download className="w-4 h-4" />
+              <Download className="w-3 h-3 sm:w-4 sm:h-4" />
               <span className="hidden sm:inline">Download Report</span>
             </button>
           </div>
@@ -579,25 +744,27 @@ function App() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 py-8 pb-24">
+      <main className="flex-1 overflow-visible max-w-7xl mx-auto w-full px-4 sm:px-6 py-4">
 
         {/* Slide Content */}
-        <div className="slide-container">
+        <div className="slide-container h-full">
           {/* Overview Slide */}
           {currentSlide === 'overview' && (
             <div className="bento-grid">
-              <div className="bento-card col-span-2 row-span-2 bg-gradient-to-br from-purple-600 via-pink-600 to-rose-600 text-white rounded-3xl p-8">
-                <div className="flex items-center gap-3 mb-4">
-                  <Sparkles className="w-8 h-8" />
-                  <h2 className="text-4xl font-bold">Lumen</h2>
+              <div className="bento-card col-span-2 row-span-2 bg-gradient-to-br from-purple-600 via-pink-600 to-rose-600 text-white rounded-3xl p-4 sm:p-6 lg:p-8 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-1.5 sm:gap-2 lg:gap-3 mb-2 sm:mb-3 lg:mb-4">
+                    <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 xl:w-8 xl:h-8" />
+                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Lumen</h2>
+                  </div>
+                  <p className="text-sm sm:text-base lg:text-xl opacity-90 mb-2 sm:mb-3 lg:mb-6">AI-Powered Alignment & Wellness Platform</p>
                 </div>
-                <p className="text-xl opacity-90 mb-6">AI-Powered Alignment & Wellness Platform</p>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2 text-sm opacity-80">
-                    <DollarSign className="w-4 h-4" />
+                <div className="space-y-1.5 sm:space-y-2 lg:space-y-3">
+                  <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm opacity-80">
+                    <DollarSign className="w-3 h-3 sm:w-4 sm:h-4" />
                     <span>Market Size</span>
                   </div>
-                  <div className="text-3xl font-bold">{totalMarketSize}</div>
+                  <div className="text-xl sm:text-2xl lg:text-3xl font-bold">{totalMarketSize}</div>
                 </div>
               </div>
 
@@ -619,20 +786,20 @@ function App() {
                     ]
                   }
                 })}
-                className="bento-card bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-3xl p-6 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
+                className="bento-card bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
               >
-                <div className="absolute top-3 right-3">
-                  <Info className="w-4 h-4 opacity-70" />
+                <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
+                  <Info className="w-3 h-3 sm:w-4 sm:h-4 opacity-70" />
                 </div>
-                <TrendingUp className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Market Growth</div>
-                <div className="text-2xl font-bold">{marketGrowth}</div>
+                <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Market Growth</div>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold">{marketGrowth}</div>
               </div>
 
-              <div className="bento-card bg-gradient-to-br from-blue-500 to-cyan-600 text-white rounded-3xl p-6">
-                <Users className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Target Users</div>
-                <div className="text-lg font-semibold">{targetUsers}</div>
+              <div className="bento-card bg-gradient-to-br from-blue-500 to-cyan-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <Users className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Target Users</div>
+                <div className="text-base sm:text-lg font-semibold">{targetUsers}</div>
               </div>
 
               <div
@@ -655,14 +822,14 @@ function App() {
                     ]
                   }
                 })}
-                className="bento-card col-span-2 bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-3xl p-6 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
+                className="bento-card col-span-2 bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
               >
-                <div className="absolute top-3 right-3">
-                  <Info className="w-4 h-4 opacity-70" />
+                <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
+                  <Info className="w-3 h-3 sm:w-4 sm:h-4 opacity-70" />
                 </div>
-                <Rocket className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-3">Key Opportunity</div>
-                <div className="text-lg">
+                <Rocket className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-2 sm:mb-3">Key Opportunity</div>
+                <div className="text-sm sm:text-base lg:text-lg leading-tight">
                   Repositioning from astrology to wellness avoids App Store restrictions while capturing growing
                   wellness market
                 </div>
@@ -687,14 +854,14 @@ function App() {
                     ]
                   }
                 })}
-                className="bento-card bg-gradient-to-br from-violet-500 to-purple-600 text-white rounded-3xl p-6 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
+                className="bento-card bg-gradient-to-br from-violet-500 to-purple-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
               >
-                <div className="absolute top-3 right-3">
-                  <Info className="w-4 h-4 opacity-70" />
+                <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
+                  <Info className="w-3 h-3 sm:w-4 sm:h-4 opacity-70" />
                 </div>
-                <BarChart3 className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Competitors</div>
-                <div className="text-2xl font-bold">{competitors.length}</div>
+                <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Competitors</div>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold">{competitors.length}</div>
                 <div className="text-xs opacity-70 mt-1">Major players</div>
               </div>
 
@@ -715,28 +882,28 @@ function App() {
                     ]
                   }
                 })}
-                className="bento-card bg-gradient-to-br from-indigo-500 to-blue-600 text-white rounded-3xl p-6 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
+                className="bento-card bg-gradient-to-br from-indigo-500 to-blue-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
               >
-                <div className="absolute top-3 right-3">
-                  <Info className="w-4 h-4 opacity-70" />
+                <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
+                  <Info className="w-3 h-3 sm:w-4 sm:h-4 opacity-70" />
                 </div>
-                <PieChart className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Market Segments</div>
-                <div className="text-2xl font-bold">{marketSegments.length}</div>
+                <PieChart className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Market Segments</div>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold">{marketSegments.length}</div>
                 <div className="text-xs opacity-70 mt-1">Target areas</div>
               </div>
 
-              <div className="bento-card bg-gradient-to-br from-pink-500 to-rose-600 text-white rounded-3xl p-6">
-                <Star className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Primary Features</div>
-                <div className="text-2xl font-bold">3</div>
+              <div className="bento-card bg-gradient-to-br from-pink-500 to-rose-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <Star className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Primary Features</div>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold">3</div>
                 <div className="text-xs opacity-70 mt-1">Core features</div>
               </div>
 
-              <div className="bento-card bg-gradient-to-br from-green-500 to-emerald-600 text-white rounded-3xl p-6">
-                <Shield className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">App Store Status</div>
-                <div className="text-lg font-semibold">Compliant</div>
+              <div className="bento-card bg-gradient-to-br from-green-500 to-emerald-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <Shield className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">App Store Status</div>
+                <div className="text-base sm:text-lg font-semibold">Compliant</div>
                 <div className="text-xs opacity-70 mt-1">Wellness positioning</div>
               </div>
             </div>
@@ -745,51 +912,79 @@ function App() {
           {/* Product Slide */}
           {currentSlide === 'product' && (
             <div className="bento-grid">
-              <div className="bento-card col-span-2 bg-gradient-to-br from-purple-600 via-pink-600 to-rose-600 text-white rounded-3xl p-8">
-                <div className="flex items-center gap-3 mb-6">
-                  <Sparkles className="w-7 h-7" />
-                  <h2 className="text-3xl font-bold">Core Features</h2>
+              <div className="bento-card col-span-2 row-span-2 bg-gradient-to-br from-purple-600 via-pink-600 to-rose-600 text-white rounded-3xl p-3 sm:p-4 lg:p-6 flex flex-col">
+                <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3 flex-shrink-0">
+                  <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 flex-shrink-0" />
+                  <h2 className="text-lg sm:text-xl lg:text-2xl font-bold">Core Features</h2>
                 </div>
-                <div className="space-y-4">
-                  <div className="flex items-start gap-4">
-                    <Target className="w-6 h-6 mt-1" />
-                    <div>
-                      <div className="font-semibold text-lg">Alignment</div>
-                      <div className="text-sm opacity-90">Personal alignment check & wellness insights</div>
+                <div className="space-y-1.5 sm:space-y-2 flex-1">
+                  <div className="flex items-start gap-2 sm:gap-2.5">
+                    <Target className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5 mt-0.5 flex-shrink-0" />
+                    <div className="min-w-0 flex-1">
+                      <div className="font-semibold text-xs sm:text-sm lg:text-base">Alignment</div>
+                      <div className="text-xs opacity-90 leading-tight">Personal alignment check & wellness insights</div>
                     </div>
                   </div>
-                  <div className="flex items-start gap-4">
-                    <UserCheck className="w-6 h-6 mt-1" />
-                    <div>
-                      <div className="font-semibold text-lg">Friend Compatibility</div>
-                      <div className="text-sm opacity-90">Check compatibility with friends (social feature)</div>
+                  <div className="flex items-start gap-2 sm:gap-2.5">
+                    <UserCheck className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5 mt-0.5 flex-shrink-0" />
+                    <div className="min-w-0 flex-1">
+                      <div className="font-semibold text-xs sm:text-sm lg:text-base">Friend Compatibility</div>
+                      <div className="text-xs opacity-90 leading-tight">Check compatibility with friends (social feature)</div>
                     </div>
                   </div>
-                  <div className="flex items-start gap-4">
-                    <Activity className="w-6 h-6 mt-1" />
-                    <div>
-                      <div className="font-semibold text-lg">Personal Goals</div>
-                      <div className="text-sm opacity-90">Set, track, and align goals with your patterns</div>
+                  <div className="flex items-start gap-2 sm:gap-2.5">
+                    <Activity className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5 mt-0.5 flex-shrink-0" />
+                    <div className="min-w-0 flex-1">
+                      <div className="font-semibold text-xs sm:text-sm lg:text-base">Personal Goals</div>
+                      <div className="text-xs opacity-90 leading-tight">Set, track, and align goals with your patterns</div>
                     </div>
                   </div>
-                </div>
-              </div>
-
-              <div className="bento-card bg-gradient-to-br from-blue-500 to-cyan-600 text-white rounded-3xl p-6">
-                <MessageCircle className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-3">Supporting Features</div>
-                <div className="space-y-3">
-                  <div className="text-sm">AI Conversations</div>
-                  <div className="text-sm">Energetic Profile</div>
                 </div>
               </div>
 
-              <div className="bento-card bg-gradient-to-br from-violet-500 to-purple-600 text-white rounded-3xl p-6">
-                <Zap className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-3">Upgrade Feature</div>
-                <div className="text-sm">
+              <div className="bento-card bg-gradient-to-br from-blue-500 to-cyan-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-2 sm:mb-3">Supporting Features</div>
+                <div className="space-y-2 sm:space-y-3">
+                  <div className="text-xs sm:text-sm">AI Conversations</div>
+                  <div className="text-xs sm:text-sm">Energetic Profile</div>
+                </div>
+              </div>
+
+              <div className="bento-card bg-gradient-to-br from-violet-500 to-purple-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <Zap className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-2 sm:mb-3">Upgrade Feature</div>
+                <div className="text-xs sm:text-sm leading-tight">
                   Energetic Profile with cultural nuances (birth chart data, not called astrology)
                 </div>
+              </div>
+
+              <div className="bento-card bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <Star className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Feature Count</div>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold">5</div>
+                <div className="text-xs opacity-70 mt-1">Total features</div>
+              </div>
+
+              <div className="bento-card bg-gradient-to-br from-indigo-500 to-blue-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <Target className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Primary Features</div>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold">3</div>
+                <div className="text-xs opacity-70 mt-1">Core focus</div>
+              </div>
+
+              <div className="bento-card bg-gradient-to-br from-pink-500 to-rose-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Monetization</div>
+                <div className="text-xs sm:text-sm font-semibold">Freemium</div>
+                <div className="text-xs opacity-70 mt-1">Energetic Profile upgrade</div>
+              </div>
+
+              <div className="bento-card bg-gradient-to-br from-green-500 to-emerald-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <Heart className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Social Features</div>
+                <div className="text-base sm:text-lg font-semibold">Yes</div>
+                <div className="text-xs opacity-70 mt-1">Friend compatibility</div>
               </div>
 
               <div
@@ -819,45 +1014,17 @@ function App() {
                     ]
                   }
                 })}
-                className="bento-card col-span-2 bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-3xl p-6 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
+                className="bento-card col-span-2 bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
               >
-                <div className="absolute top-3 right-3">
-                  <Info className="w-4 h-4 opacity-70" />
+                <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
+                  <Info className="w-3 h-3 sm:w-4 sm:h-4 opacity-70" />
                 </div>
-                <Award className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-3">Value Proposition</div>
-                <div className="text-lg">
+                <Award className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-2 sm:mb-3">Value Proposition</div>
+                <div className="text-sm sm:text-base lg:text-lg leading-tight">
                   Move beyond traditional astrology positioning to wellness-focused platform that combines personal
                   insights, goal tracking, and social connection
                 </div>
-              </div>
-
-              <div className="bento-card bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-3xl p-6">
-                <Star className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Feature Count</div>
-                <div className="text-2xl font-bold">5</div>
-                <div className="text-xs opacity-70 mt-1">Total features</div>
-              </div>
-
-              <div className="bento-card bg-gradient-to-br from-indigo-500 to-blue-600 text-white rounded-3xl p-6">
-                <Target className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Primary Features</div>
-                <div className="text-2xl font-bold">3</div>
-                <div className="text-xs opacity-70 mt-1">Core focus</div>
-              </div>
-
-              <div className="bento-card bg-gradient-to-br from-pink-500 to-rose-600 text-white rounded-3xl p-6">
-                <DollarSign className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Monetization</div>
-                <div className="text-sm font-semibold">Freemium</div>
-                <div className="text-xs opacity-70 mt-1">Energetic Profile upgrade</div>
-              </div>
-
-              <div className="bento-card bg-gradient-to-br from-green-500 to-emerald-600 text-white rounded-3xl p-6">
-                <Heart className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Social Features</div>
-                <div className="text-lg font-semibold">Yes</div>
-                <div className="text-xs opacity-70 mt-1">Friend compatibility</div>
               </div>
             </div>
           )}
@@ -869,52 +1036,60 @@ function App() {
                 <div
                   key={index}
                   onClick={() => setPopupData({ type: 'competitor', data: competitor })}
-                  className="bento-card bg-white dark:bg-gray-800 rounded-3xl overflow-hidden border border-gray-200 dark:border-gray-700 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
+                  className="bento-card bg-white dark:bg-gray-800 rounded-3xl border border-gray-200 dark:border-gray-700 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
                 >
-                  <div className="absolute top-3 right-3 z-10">
-                    <Info className="w-4 h-4 text-gray-600 dark:text-gray-400 bg-white/90 dark:bg-gray-800/90 rounded-full p-1" />
+                  <div className="absolute top-2 right-2 z-10">
+                    <Info className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600 dark:text-gray-400 bg-white/90 dark:bg-gray-800/90 rounded-full p-0.5" />
                   </div>
-                  <div className="relative h-32 w-full overflow-hidden">
-                    <img
-                      src={competitor.imageUrl}
-                      alt={`${competitor.name} app interface`}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                    />
-                    <div className="absolute top-2 right-2">
-                      <span className="px-2 py-1 bg-black/80 text-white rounded-lg text-xs font-semibold backdrop-blur-sm">
-                        {competitor.marketShare}%
-                      </span>
-                    </div>
+                  <div className="absolute top-2 right-10 sm:right-12 z-10">
+                    <span className="px-1.5 py-0.5 bg-black/80 text-white rounded text-xs font-semibold backdrop-blur-sm shadow-lg">
+                      {competitor.marketShare}%
+                    </span>
                   </div>
-                  <div className="p-6">
-                    <div className="mb-3">
-                      <h3 className="font-bold text-lg text-gray-900 dark:text-white">{competitor.name}</h3>
-                      <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{competitor.category}</div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">{competitor.users} users</div>
+                  <div className="p-2 sm:p-2.5 lg:p-3">
+                    <div className="mb-1.5">
+                      <div className="flex items-start gap-1.5 sm:gap-2 mb-1.5">
+                        <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-lg overflow-hidden flex-shrink-0 border border-gray-200 dark:border-gray-700 shadow-sm">
+                          <img
+                            src={competitor.imageUrl}
+                            alt={`${competitor.name} logo`}
+                            className="w-full h-full object-cover"
+                            loading="lazy"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                            }}
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-bold text-xs sm:text-sm lg:text-base text-gray-900 dark:text-white leading-tight">{competitor.name}</h3>
+                          <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{competitor.category}</div>
+                          <div className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">{competitor.users} users</div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-1">
                       <div className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                        <TrendingUp className="w-3 h-3" />
+                        <TrendingUp className="w-3 h-3 flex-shrink-0" />
                         <span>Strengths</span>
                       </div>
-                      <ul className="text-xs text-gray-700 dark:text-gray-300 space-y-1">
+                      <ul className="text-xs text-gray-700 dark:text-gray-300 space-y-0.5">
                         {competitor.strengths.slice(0, 2).map((s, i) => (
-                          <li key={i} className="flex items-start gap-1">
-                            <span>•</span>
-                            <span>{s}</span>
+                          <li key={i} className="flex items-start gap-1 leading-tight">
+                            <span className="flex-shrink-0">•</span>
+                            <span className="min-w-0">{s}</span>
                           </li>
                         ))}
                       </ul>
-                      <div className="text-xs font-semibold text-red-600 dark:text-red-400 mt-2 flex items-center gap-1">
-                        <TrendingDown className="w-3 h-3" />
+                      <div className="text-xs font-semibold text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                        <TrendingDown className="w-3 h-3 flex-shrink-0" />
                         <span>Weaknesses</span>
                       </div>
-                      <ul className="text-xs text-gray-700 dark:text-gray-300 space-y-1">
+                      <ul className="text-xs text-gray-700 dark:text-gray-300 space-y-0.5">
                         {competitor.weaknesses.slice(0, 2).map((w, i) => (
-                          <li key={i} className="flex items-start gap-1">
-                            <span>•</span>
-                            <span>{w}</span>
+                          <li key={i} className="flex items-start gap-1 leading-tight">
+                            <span className="flex-shrink-0">•</span>
+                            <span className="min-w-0">{w}</span>
                           </li>
                         ))}
                       </ul>
@@ -939,30 +1114,30 @@ function App() {
                   <div
                     key={index}
                     onClick={() => setPopupData({ type: 'market', data: segment })}
-                    className={`bento-card bg-gradient-to-br ${colors[index]} text-white rounded-3xl p-6 cursor-pointer hover:scale-105 transition-transform duration-200`}
+                    className={`bento-card bg-gradient-to-br ${colors[index]} text-white rounded-3xl p-4 sm:p-5 lg:p-6 cursor-pointer hover:scale-105 transition-transform duration-200`}
                   >
-                    <Globe className="w-6 h-6 mb-3" />
-                    <h3 className="font-bold text-lg mb-4 text-white">
+                    <Globe className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-2 sm:mb-3" />
+                    <h3 className="font-bold text-sm sm:text-base lg:text-lg mb-2 sm:mb-3 lg:mb-4 text-white leading-tight">
                       {segment.name}
                     </h3>
-                    <div className="space-y-3">
+                    <div className="space-y-2 sm:space-y-3">
                       <div>
                         <div className="text-xs opacity-80">Market Size</div>
-                        <div className="text-xl font-bold text-white">
+                        <div className="text-lg sm:text-xl font-bold text-white">
                           {segment.size}
                         </div>
                       </div>
                       <div>
                         <div className="text-xs opacity-80">Growth</div>
-                        <div className="text-lg font-semibold text-white">
+                        <div className="text-base sm:text-lg font-semibold text-white">
                           {segment.growth}
                         </div>
                       </div>
-                      <div className="pt-3 border-t border-white/20">
-                        <div className="text-xs font-semibold mb-1 text-white opacity-90">
+                      <div className="pt-2 sm:pt-3 border-t border-white/20">
+                        <div className="text-xs font-semibold mb-0.5 sm:mb-1 text-white opacity-90">
                           Lumen Fit
                         </div>
-                        <div className="text-xs opacity-80">
+                        <div className="text-xs opacity-80 leading-tight">
                           {segment.lumenFit}
                         </div>
                       </div>
@@ -988,14 +1163,14 @@ function App() {
                     ]
                   }
                 })}
-                className="bento-card bg-gradient-to-br from-indigo-500 to-violet-600 text-white rounded-3xl p-6 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
+                className="bento-card bg-gradient-to-br from-indigo-500 to-violet-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
               >
-                <div className="absolute top-3 right-3">
-                  <Info className="w-4 h-4 opacity-70" />
+                <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
+                  <Info className="w-3 h-3 sm:w-4 sm:h-4 opacity-70" />
                 </div>
-                <BarChart3 className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Total Market</div>
-                <div className="text-2xl font-bold">{totalMarketSize}</div>
+                <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Total Market</div>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold">{totalMarketSize}</div>
                 <div className="text-xs opacity-70 mt-1">Combined segments</div>
               </div>
               <div
@@ -1022,14 +1197,14 @@ function App() {
                     ]
                   }
                 })}
-                className="bento-card bg-gradient-to-br from-rose-500 to-pink-600 text-white rounded-3xl p-6 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
+                className="bento-card bg-gradient-to-br from-rose-500 to-pink-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
               >
-                <div className="absolute top-3 right-3">
-                  <Info className="w-4 h-4 opacity-70" />
+                <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
+                  <Info className="w-3 h-3 sm:w-4 sm:h-4 opacity-70" />
                 </div>
-                <TrendingUp className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Avg Growth</div>
-                <div className="text-2xl font-bold">{marketGrowth}</div>
+                <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Avg Growth</div>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold">{marketGrowth}</div>
                 <div className="text-xs opacity-70 mt-1">CAGR</div>
               </div>
             </div>
@@ -1038,28 +1213,28 @@ function App() {
           {/* Positioning Slide */}
           {currentSlide === 'positioning' && (
             <div className="bento-grid">
-              <div className="bento-card col-span-2 bg-gradient-to-br from-purple-600 via-pink-600 to-rose-600 text-white rounded-3xl p-8">
-                <div className="flex items-center gap-3 mb-6">
-                  <Target className="w-7 h-7" />
-                  <h2 className="text-3xl font-bold">Market Positioning</h2>
+              <div className="bento-card col-span-2 row-span-2 bg-gradient-to-br from-purple-600 via-pink-600 to-rose-600 text-white rounded-3xl p-4 sm:p-6 lg:p-8 flex flex-col">
+                <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4 lg:mb-6 flex-shrink-0">
+                  <Target className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7" />
+                  <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold">Market Positioning</h2>
                 </div>
-                <div className="space-y-4">
+                <div className="space-y-2 sm:space-y-3 lg:space-y-4 flex-1">
                   <div>
-                    <div className="font-semibold text-lg mb-2">Old Positioning</div>
-                    <div className="text-sm opacity-90">Astrology, horoscope, fortune telling, eastern readings</div>
+                    <div className="font-semibold text-sm sm:text-base lg:text-lg mb-1 sm:mb-2">Old Positioning</div>
+                    <div className="text-xs sm:text-sm opacity-90 leading-tight">Astrology, horoscope, fortune telling, eastern readings</div>
                     <div className="text-xs opacity-75 mt-1 flex items-center gap-1">
-                      <TrendingDown className="w-3 h-3" />
+                      <TrendingDown className="w-3 h-3 flex-shrink-0" />
                       <span>Rejected by App Store</span>
                     </div>
                   </div>
                   <div>
-                    <div className="font-semibold text-lg mb-2">New Positioning</div>
-                    <div className="text-sm opacity-90">
+                    <div className="font-semibold text-sm sm:text-base lg:text-lg mb-1 sm:mb-2">New Positioning</div>
+                    <div className="text-xs sm:text-sm opacity-90 leading-tight">
                       AI-Powered Alignment & Wellness Platform - Personal insights, goal tracking, and social
                       compatibility
                     </div>
                     <div className="text-xs opacity-75 mt-1 flex items-center gap-1">
-                      <TrendingUp className="w-3 h-3" />
+                      <TrendingUp className="w-3 h-3 flex-shrink-0" />
                       <span>App Store compliant</span>
                     </div>
                   </div>
@@ -1093,14 +1268,14 @@ function App() {
                     ]
                   }
                 })}
-                className="bento-card bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-3xl p-6 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
+                className="bento-card bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
               >
-                <div className="absolute top-3 right-3">
-                  <Info className="w-4 h-4 opacity-70" />
+                <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
+                  <Info className="w-3 h-3 sm:w-4 sm:h-4 opacity-70" />
                 </div>
-                <Award className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-3">Key Advantage</div>
-                <div className="text-sm">
+                <Award className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-2 sm:mb-3">Key Advantage</div>
+                <div className="text-xs sm:text-sm leading-tight">
                   Wellness positioning opens larger, growing market while avoiding App Store restrictions
                 </div>
               </div>
@@ -1132,16 +1307,44 @@ function App() {
                     ]
                   }
                 })}
-                className="bento-card bg-gradient-to-br from-blue-500 to-cyan-600 text-white rounded-3xl p-6 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
+                className="bento-card bg-gradient-to-br from-blue-500 to-cyan-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
               >
-                <div className="absolute top-3 right-3">
-                  <Info className="w-4 h-4 opacity-70" />
+                <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
+                  <Info className="w-3 h-3 sm:w-4 sm:h-4 opacity-70" />
                 </div>
-                <Sparkles className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-3">Differentiation</div>
-                <div className="text-sm">
+                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-2 sm:mb-3">Differentiation</div>
+                <div className="text-xs sm:text-sm leading-tight">
                   Only platform combining alignment, goals, and friend compatibility
                 </div>
+              </div>
+
+              <div className="bento-card bg-gradient-to-br from-green-500 to-emerald-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <Shield className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">App Store Status</div>
+                <div className="text-base sm:text-lg font-semibold">Compliant</div>
+                <div className="text-xs opacity-70 mt-1">Wellness category</div>
+              </div>
+
+              <div className="bento-card bg-gradient-to-br from-violet-500 to-purple-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Market Size</div>
+                <div className="text-base sm:text-lg font-semibold">Larger</div>
+                <div className="text-xs opacity-70 mt-1">Wellness vs astrology</div>
+              </div>
+
+              <div className="bento-card bg-gradient-to-br from-pink-500 to-rose-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <Star className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Unique Features</div>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold">3</div>
+                <div className="text-xs opacity-70 mt-1">Combined features</div>
+              </div>
+
+              <div className="bento-card bg-gradient-to-br from-indigo-500 to-blue-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <Rocket className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Competitive Edge</div>
+                <div className="text-xs sm:text-sm font-semibold">High</div>
+                <div className="text-xs opacity-70 mt-1">Unique positioning</div>
               </div>
 
               <div
@@ -1170,45 +1373,17 @@ function App() {
                     ]
                   }
                 })}
-                className="bento-card col-span-2 bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-3xl p-6 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
+                className="bento-card col-span-2 bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
               >
-                <div className="absolute top-3 right-3">
-                  <Info className="w-4 h-4 opacity-70" />
+                <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
+                  <Info className="w-3 h-3 sm:w-4 sm:h-4 opacity-70" />
                 </div>
-                <Users className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-3">Target Audience</div>
-                <div className="text-lg">
+                <Users className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-2 sm:mb-3">Target Audience</div>
+                <div className="text-sm sm:text-base lg:text-lg leading-tight">
                   Gen Z & Millennials seeking personalized wellness insights, goal achievement, and meaningful social
                   connections
                 </div>
-              </div>
-
-              <div className="bento-card bg-gradient-to-br from-green-500 to-emerald-600 text-white rounded-3xl p-6">
-                <Shield className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">App Store Status</div>
-                <div className="text-lg font-semibold">Compliant</div>
-                <div className="text-xs opacity-70 mt-1">Wellness category</div>
-              </div>
-
-              <div className="bento-card bg-gradient-to-br from-violet-500 to-purple-600 text-white rounded-3xl p-6">
-                <BarChart3 className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Market Size</div>
-                <div className="text-lg font-semibold">Larger</div>
-                <div className="text-xs opacity-70 mt-1">Wellness vs astrology</div>
-              </div>
-
-              <div className="bento-card bg-gradient-to-br from-pink-500 to-rose-600 text-white rounded-3xl p-6">
-                <Star className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Unique Features</div>
-                <div className="text-2xl font-bold">3</div>
-                <div className="text-xs opacity-70 mt-1">Combined features</div>
-              </div>
-
-              <div className="bento-card bg-gradient-to-br from-indigo-500 to-blue-600 text-white rounded-3xl p-6">
-                <Rocket className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Competitive Edge</div>
-                <div className="text-sm font-semibold">High</div>
-                <div className="text-xs opacity-70 mt-1">Unique positioning</div>
               </div>
             </div>
           )}
@@ -1216,39 +1391,39 @@ function App() {
           {/* Strategy Slide */}
           {currentSlide === 'strategy' && (
             <div className="bento-grid">
-              <div className="bento-card col-span-2 bg-gradient-to-br from-purple-600 via-pink-600 to-rose-600 text-white rounded-3xl p-8">
-                <div className="flex items-center gap-3 mb-6">
-                  <Rocket className="w-7 h-7" />
-                  <h2 className="text-3xl font-bold">Go-to-Market Strategy</h2>
+              <div className="bento-card col-span-2 row-span-2 bg-gradient-to-br from-purple-600 via-pink-600 to-rose-600 text-white rounded-3xl p-4 sm:p-6 lg:p-8 flex flex-col">
+                <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4 lg:mb-6 flex-shrink-0">
+                  <Rocket className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7" />
+                  <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold">Go-to-Market Strategy</h2>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 lg:gap-4 flex-1">
                   <div>
-                    <div className="font-semibold mb-2 flex items-center gap-2">
-                      <Zap className="w-4 h-4" />
+                    <div className="font-semibold text-xs sm:text-sm mb-1 sm:mb-2 flex items-center gap-1.5 sm:gap-2">
+                      <Zap className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
                       <span>1. Launch Focus</span>
                     </div>
-                    <div className="text-sm opacity-90">Wellness positioning, avoid astrology language</div>
+                    <div className="text-xs sm:text-sm opacity-90 leading-tight">Wellness positioning, avoid astrology language</div>
                   </div>
                   <div>
-                    <div className="font-semibold mb-2 flex items-center gap-2">
-                      <Target className="w-4 h-4" />
+                    <div className="font-semibold text-xs sm:text-sm mb-1 sm:mb-2 flex items-center gap-1.5 sm:gap-2">
+                      <Target className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
                       <span>2. Feature Priority</span>
                     </div>
-                    <div className="text-sm opacity-90">Alignment, Compatibility, Goals (primary features)</div>
+                    <div className="text-xs sm:text-sm opacity-90 leading-tight">Alignment, Compatibility, Goals (primary features)</div>
                   </div>
                   <div>
-                    <div className="font-semibold mb-2 flex items-center gap-2">
-                      <DollarSign className="w-4 h-4" />
+                    <div className="font-semibold text-xs sm:text-sm mb-1 sm:mb-2 flex items-center gap-1.5 sm:gap-2">
+                      <DollarSign className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
                       <span>3. Monetization</span>
                     </div>
-                    <div className="text-sm opacity-90">Freemium with Energetic Profile upgrade</div>
+                    <div className="text-xs sm:text-sm opacity-90 leading-tight">Freemium with Energetic Profile upgrade</div>
                   </div>
                   <div>
-                    <div className="font-semibold mb-2 flex items-center gap-2">
-                      <TrendingUp className="w-4 h-4" />
+                    <div className="font-semibold text-xs sm:text-sm mb-1 sm:mb-2 flex items-center gap-1.5 sm:gap-2">
+                      <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
                       <span>4. Growth</span>
                     </div>
-                    <div className="text-sm opacity-90">Social features drive viral growth</div>
+                    <div className="text-xs sm:text-sm opacity-90 leading-tight">Social features drive viral growth</div>
                   </div>
                 </div>
               </div>
@@ -1275,33 +1450,61 @@ function App() {
                     ]
                   }
                 })}
-                className="bento-card bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-3xl p-6 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
+                className="bento-card bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
               >
-                <div className="absolute top-3 right-3">
-                  <Info className="w-4 h-4 opacity-70" />
+                <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
+                  <Info className="w-3 h-3 sm:w-4 sm:h-4 opacity-70" />
                 </div>
-                <BarChart3 className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-3">Success Metrics</div>
-                <div className="space-y-2">
+                <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-2 sm:mb-3">Success Metrics</div>
+                <div className="space-y-1.5 sm:space-y-2">
                   <div>
                     <div className="text-xs opacity-70">Year 1 Users</div>
-                    <div className="text-lg font-bold">500K</div>
+                    <div className="text-base sm:text-lg font-bold">500K</div>
                   </div>
                   <div>
                     <div className="text-xs opacity-70">Conversion Rate</div>
-                    <div className="text-lg font-bold">5%</div>
+                    <div className="text-base sm:text-lg font-bold">5%</div>
                   </div>
                 </div>
               </div>
 
-              <div className="bento-card bg-gradient-to-br from-red-500 to-rose-600 text-white rounded-3xl p-6">
-                <Shield className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-3">Risks</div>
-                <div className="text-xs space-y-1">
+              <div className="bento-card bg-gradient-to-br from-red-500 to-rose-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <Shield className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-2 sm:mb-3">Risks</div>
+                <div className="text-xs space-y-0.5 sm:space-y-1 leading-tight">
                   <div>• App Store compliance</div>
                   <div>• Competitor response</div>
                   <div>• User education</div>
                 </div>
+              </div>
+
+              <div className="bento-card bg-gradient-to-br from-blue-500 to-cyan-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <PieChart className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Year 3 Target</div>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold">15%</div>
+                <div className="text-xs opacity-70 mt-1">Market share</div>
+              </div>
+
+              <div className="bento-card bg-gradient-to-br from-violet-500 to-purple-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">ARR Target</div>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold">$50M</div>
+                <div className="text-xs opacity-70 mt-1">Year 3</div>
+              </div>
+
+              <div className="bento-card bg-gradient-to-br from-pink-500 to-rose-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <Star className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">NPS Target</div>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold">4.5/5</div>
+                <div className="text-xs opacity-70 mt-1">Customer satisfaction</div>
+              </div>
+
+              <div className="bento-card bg-gradient-to-br from-indigo-500 to-blue-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <Calendar className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Launch Timeline</div>
+                <div className="text-xs sm:text-sm font-semibold">Q2 2024</div>
+                <div className="text-xs opacity-70 mt-1">Target launch</div>
               </div>
 
               <div
@@ -1332,46 +1535,18 @@ function App() {
                     ]
                   }
                 })}
-                className="bento-card col-span-2 bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-3xl p-6 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
+                className="bento-card col-span-2 bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
               >
-                <div className="absolute top-3 right-3">
-                  <Info className="w-4 h-4 opacity-70" />
+                <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
+                  <Info className="w-3 h-3 sm:w-4 sm:h-4 opacity-70" />
                 </div>
-                <Award className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-3">Recommendation</div>
-                <div className="text-lg">
+                <Award className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-2 sm:mb-3">Recommendation</div>
+                <div className="text-sm sm:text-base lg:text-lg leading-tight">
                   Lumen has strong market value potential. Wellness market is growing, positioning avoids App Store
                   issues, and unique feature combination (alignment + goals + social) differentiates from competitors.
                   Focus on Gen Z/Millennial wellness seekers.
                 </div>
-              </div>
-
-              <div className="bento-card bg-gradient-to-br from-blue-500 to-cyan-600 text-white rounded-3xl p-6">
-                <PieChart className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Year 3 Target</div>
-                <div className="text-2xl font-bold">15%</div>
-                <div className="text-xs opacity-70 mt-1">Market share</div>
-              </div>
-
-              <div className="bento-card bg-gradient-to-br from-violet-500 to-purple-600 text-white rounded-3xl p-6">
-                <DollarSign className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">ARR Target</div>
-                <div className="text-2xl font-bold">$50M</div>
-                <div className="text-xs opacity-70 mt-1">Year 3</div>
-              </div>
-
-              <div className="bento-card bg-gradient-to-br from-pink-500 to-rose-600 text-white rounded-3xl p-6">
-                <Star className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">NPS Target</div>
-                <div className="text-2xl font-bold">4.5/5</div>
-                <div className="text-xs opacity-70 mt-1">Customer satisfaction</div>
-              </div>
-
-              <div className="bento-card bg-gradient-to-br from-indigo-500 to-blue-600 text-white rounded-3xl p-6">
-                <Calendar className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Launch Timeline</div>
-                <div className="text-sm font-semibold">Q2 2024</div>
-                <div className="text-xs opacity-70 mt-1">Target launch</div>
               </div>
             </div>
           )}
@@ -1379,92 +1554,92 @@ function App() {
           {/* Market Positioning Summary Slide */}
           {currentSlide === 'summary' && (
             <div className="bento-grid">
-              <div className="bento-card col-span-2 bg-gradient-to-br from-purple-600 via-pink-600 to-rose-600 text-white rounded-3xl p-8">
-                <div className="flex items-center gap-3 mb-6">
-                  <BarChart3 className="w-7 h-7" />
-                  <h2 className="text-3xl font-bold">Lumen Market Positioning Summary</h2>
+              <div className="bento-card col-span-2 row-span-2 bg-gradient-to-br from-purple-600 via-pink-600 to-rose-600 text-white rounded-3xl p-4 sm:p-6 lg:p-8 flex flex-col">
+                <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4 lg:mb-6 flex-shrink-0">
+                  <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7" />
+                  <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold">Lumen Market Positioning Summary</h2>
                 </div>
-                <div className="space-y-4">
+                <div className="space-y-2 sm:space-y-3 lg:space-y-4 flex-1">
                   <div>
-                    <div className="font-semibold text-lg mb-2 flex items-center gap-2">
-                      <Rocket className="w-5 h-5" />
+                    <div className="font-semibold text-sm sm:text-base lg:text-lg mb-1 sm:mb-2 flex items-center gap-1.5 sm:gap-2">
+                      <Rocket className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
                       <span>Strategic Repositioning</span>
                     </div>
-                    <div className="text-sm opacity-90">
+                    <div className="text-xs sm:text-sm opacity-90 leading-tight">
                       Successfully transitioned from astrology-based app (App Store rejected) to AI-Powered Alignment & Wellness Platform, opening access to a $21.5B market
                     </div>
                   </div>
                   <div>
-                    <div className="font-semibold text-lg mb-2 flex items-center gap-2">
-                      <Sparkles className="w-5 h-5" />
+                    <div className="font-semibold text-sm sm:text-base lg:text-lg mb-1 sm:mb-2 flex items-center gap-1.5 sm:gap-2">
+                      <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
                       <span>Unique Value Proposition</span>
                     </div>
-                    <div className="text-sm opacity-90">
+                    <div className="text-xs sm:text-sm opacity-90 leading-tight">
                       Only platform combining personal alignment insights, goal tracking, and friend compatibility in the wellness space
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="bento-card bg-gradient-to-br from-blue-500 to-cyan-600 text-white rounded-3xl p-6">
-                <Globe className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Market Position</div>
-                <div className="text-lg font-semibold">Market Entrant</div>
+              <div className="bento-card bg-gradient-to-br from-blue-500 to-cyan-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <Globe className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Market Position</div>
+                <div className="text-base sm:text-lg font-semibold">Market Entrant</div>
                 <div className="text-xs opacity-70 mt-1">Wellness category</div>
               </div>
 
-              <div className="bento-card bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-3xl p-6">
-                <Award className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Competitive Advantage</div>
-                <div className="text-sm font-semibold">High</div>
+              <div className="bento-card bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <Award className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Competitive Advantage</div>
+                <div className="text-xs sm:text-sm font-semibold">High</div>
                 <div className="text-xs opacity-70 mt-1">Unique feature set</div>
               </div>
 
-              <div className="bento-card col-span-2 bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-3xl p-6">
-                <Target className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-3">Key Differentiators</div>
-                <div className="grid grid-cols-3 gap-4">
-                  <div>
-                    <div className="text-xs opacity-70 mb-1">Alignment</div>
-                    <div className="text-sm font-semibold">Personal insights</div>
-                  </div>
-                  <div>
-                    <div className="text-xs opacity-70 mb-1">Goals</div>
-                    <div className="text-sm font-semibold">Pattern tracking</div>
-                  </div>
-                  <div>
-                    <div className="text-xs opacity-70 mb-1">Social</div>
-                    <div className="text-sm font-semibold">Compatibility</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bento-card bg-gradient-to-br from-violet-500 to-purple-600 text-white rounded-3xl p-6">
-                <Users className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Target Market</div>
-                <div className="text-sm font-semibold">Gen Z & Millennials</div>
+              <div className="bento-card bg-gradient-to-br from-violet-500 to-purple-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <Users className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Target Market</div>
+                <div className="text-xs sm:text-sm font-semibold">Gen Z & Millennials</div>
                 <div className="text-xs opacity-70 mt-1">18-40 years</div>
               </div>
 
-              <div className="bento-card bg-gradient-to-br from-indigo-500 to-blue-600 text-white rounded-3xl p-6">
-                <DollarSign className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Market Size</div>
-                <div className="text-2xl font-bold">{totalMarketSize}</div>
+              <div className="bento-card bg-gradient-to-br from-indigo-500 to-blue-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Market Size</div>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold">{totalMarketSize}</div>
                 <div className="text-xs opacity-70 mt-1">TAM</div>
               </div>
 
-              <div className="bento-card bg-gradient-to-br from-green-500 to-emerald-600 text-white rounded-3xl p-6">
-                <Shield className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">App Store Status</div>
-                <div className="text-lg font-bold">Compliant</div>
+              <div className="bento-card bg-gradient-to-br from-green-500 to-emerald-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <Shield className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">App Store Status</div>
+                <div className="text-base sm:text-lg font-bold">Compliant</div>
                 <div className="text-xs opacity-70 mt-1">Wellness category</div>
               </div>
 
-              <div className="bento-card bg-gradient-to-br from-pink-500 to-rose-600 text-white rounded-3xl p-6">
-                <PieChart className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Primary Segments</div>
-                <div className="text-2xl font-bold">{marketSegments.length}</div>
+              <div className="bento-card bg-gradient-to-br from-pink-500 to-rose-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <PieChart className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Primary Segments</div>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold">{marketSegments.length}</div>
                 <div className="text-xs opacity-70 mt-1">Target areas</div>
+              </div>
+
+              <div className="bento-card col-span-2 bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <Target className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-2 sm:mb-3">Key Differentiators</div>
+                <div className="grid grid-cols-3 gap-2 sm:gap-3 lg:gap-4">
+                  <div>
+                    <div className="text-xs opacity-70 mb-0.5 sm:mb-1">Alignment</div>
+                    <div className="text-xs sm:text-sm font-semibold">Personal insights</div>
+                  </div>
+                  <div>
+                    <div className="text-xs opacity-70 mb-0.5 sm:mb-1">Goals</div>
+                    <div className="text-xs sm:text-sm font-semibold">Pattern tracking</div>
+                  </div>
+                  <div>
+                    <div className="text-xs opacity-70 mb-0.5 sm:mb-1">Social</div>
+                    <div className="text-xs sm:text-sm font-semibold">Compatibility</div>
+                  </div>
+                </div>
               </div>
             </div>
           )}
@@ -1503,100 +1678,100 @@ function App() {
                     ]
                   }
                 })}
-                className="bento-card col-span-2 bg-gradient-to-br from-purple-600 via-pink-600 to-rose-600 text-white rounded-3xl p-8 cursor-pointer hover:scale-105 transition-transform duration-200 relative"
+                className="bento-card col-span-2 row-span-2 bg-gradient-to-br from-purple-600 via-pink-600 to-rose-600 text-white rounded-3xl p-4 sm:p-6 lg:p-8 cursor-pointer hover:scale-105 transition-transform duration-200 relative flex flex-col"
               >
-                <div className="absolute top-4 right-4">
-                  <Info className="w-5 h-5 opacity-70" />
+                <div className="absolute top-2 right-2 sm:top-3 sm:right-3 lg:top-4 lg:right-4 z-10">
+                  <Info className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5 opacity-70" />
                 </div>
-                <div className="flex items-center gap-3 mb-6">
-                  <TrendingUp className="w-7 h-7" />
-                  <h2 className="text-3xl font-bold">Market Trend Forecast</h2>
+                <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4 lg:mb-6 flex-shrink-0">
+                  <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7" />
+                  <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold">Market Trend Forecast</h2>
                 </div>
-                <div className="space-y-4">
+                <div className="space-y-2 sm:space-y-3 lg:space-y-4 flex-1">
                   <div>
-                    <div className="font-semibold text-lg mb-2 flex items-center gap-2">
-                      <Calendar className="w-5 h-5" />
+                    <div className="font-semibold text-sm sm:text-base lg:text-lg mb-1 sm:mb-2 flex items-center gap-1.5 sm:gap-2">
+                      <Calendar className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
                       <span>2024-2027 Outlook</span>
                     </div>
-                    <div className="text-sm opacity-90">
+                    <div className="text-xs sm:text-sm opacity-90 leading-tight">
                       Wellness market expected to grow at 22% CAGR. AI-powered personalization and social wellness features driving adoption. Lumen positioned to capture early market share.
                     </div>
                   </div>
                   <div>
-                    <div className="font-semibold text-lg mb-2 flex items-center gap-2">
-                      <Activity className="w-5 h-5" />
+                    <div className="font-semibold text-sm sm:text-base lg:text-lg mb-1 sm:mb-2 flex items-center gap-1.5 sm:gap-2">
+                      <Activity className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
                       <span>Key Trends</span>
                     </div>
-                    <div className="text-sm opacity-90">
+                    <div className="text-xs sm:text-sm opacity-90 leading-tight">
                       Shift from passive wellness apps to active alignment platforms. Social features becoming essential. Goal tracking with personal insights emerging as differentiator.
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="bento-card bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-3xl p-6">
-                <TrendingUp className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Market Growth</div>
-                <div className="text-2xl font-bold">{marketGrowth}</div>
+              <div className="bento-card bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Market Growth</div>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold">{marketGrowth}</div>
                 <div className="text-xs opacity-70 mt-1">2024-2027 CAGR</div>
               </div>
 
-              <div className="bento-card bg-gradient-to-br from-blue-500 to-cyan-600 text-white rounded-3xl p-6">
-                <Zap className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">AI Adoption</div>
-                <div className="text-lg font-semibold">35% YoY</div>
+              <div className="bento-card bg-gradient-to-br from-blue-500 to-cyan-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <Zap className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">AI Adoption</div>
+                <div className="text-base sm:text-lg font-semibold">35% YoY</div>
                 <div className="text-xs opacity-70 mt-1">Growth rate</div>
               </div>
 
-              <div className="bento-card col-span-2 bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-3xl p-6">
-                <Calendar className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-3">Forecast Highlights</div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <div className="text-xs opacity-70 mb-1">2024</div>
-                    <div className="text-sm font-semibold">Market entry, establish positioning</div>
-                  </div>
-                  <div>
-                    <div className="text-xs opacity-70 mb-1">2025</div>
-                    <div className="text-sm font-semibold">User growth, feature expansion</div>
-                  </div>
-                  <div>
-                    <div className="text-xs opacity-70 mb-1">2026</div>
-                    <div className="text-sm font-semibold">Market share growth, partnerships</div>
-                  </div>
-                  <div>
-                    <div className="text-xs opacity-70 mb-1">2027</div>
-                    <div className="text-sm font-semibold">15% market share target</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bento-card bg-gradient-to-br from-violet-500 to-purple-600 text-white rounded-3xl p-6">
-                <Heart className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Social Wellness</div>
-                <div className="text-lg font-semibold">28% YoY</div>
+              <div className="bento-card bg-gradient-to-br from-violet-500 to-purple-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <Heart className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Social Wellness</div>
+                <div className="text-base sm:text-lg font-semibold">28% YoY</div>
                 <div className="text-xs opacity-70 mt-1">Fastest growing</div>
               </div>
 
-              <div className="bento-card bg-gradient-to-br from-indigo-500 to-blue-600 text-white rounded-3xl p-6">
-                <Rocket className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Market Opportunity</div>
-                <div className="text-sm font-semibold">High</div>
+              <div className="bento-card bg-gradient-to-br from-indigo-500 to-blue-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <Rocket className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Market Opportunity</div>
+                <div className="text-xs sm:text-sm font-semibold">High</div>
                 <div className="text-xs opacity-70 mt-1">Growing demand</div>
               </div>
 
-              <div className="bento-card bg-gradient-to-br from-pink-500 to-rose-600 text-white rounded-3xl p-6">
-                <PieChart className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Year 3 Target</div>
-                <div className="text-2xl font-bold">15%</div>
+              <div className="bento-card bg-gradient-to-br from-pink-500 to-rose-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <PieChart className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Year 3 Target</div>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold">15%</div>
                 <div className="text-xs opacity-70 mt-1">Market share</div>
               </div>
 
-              <div className="bento-card bg-gradient-to-br from-green-500 to-emerald-600 text-white rounded-3xl p-6">
-                <Shield className="w-6 h-6 mb-2" />
-                <div className="text-sm opacity-80 mb-2">Competitive Risk</div>
-                <div className="text-sm font-semibold">Medium</div>
+              <div className="bento-card bg-gradient-to-br from-green-500 to-emerald-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <Shield className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-1.5 sm:mb-2">Competitive Risk</div>
+                <div className="text-xs sm:text-sm font-semibold">Medium</div>
                 <div className="text-xs opacity-70 mt-1">Unique positioning</div>
+              </div>
+
+              <div className="bento-card col-span-2 bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-3xl p-4 sm:p-5 lg:p-6">
+                <Calendar className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mb-1.5 sm:mb-2" />
+                <div className="text-xs sm:text-sm opacity-80 mb-2 sm:mb-3">Forecast Highlights</div>
+                <div className="grid grid-cols-2 gap-2 sm:gap-3 lg:gap-4">
+                  <div>
+                    <div className="text-xs opacity-70 mb-0.5 sm:mb-1">2024</div>
+                    <div className="text-xs sm:text-sm font-semibold leading-tight">Market entry, establish positioning</div>
+                  </div>
+                  <div>
+                    <div className="text-xs opacity-70 mb-0.5 sm:mb-1">2025</div>
+                    <div className="text-xs sm:text-sm font-semibold leading-tight">User growth, feature expansion</div>
+                  </div>
+                  <div>
+                    <div className="text-xs opacity-70 mb-0.5 sm:mb-1">2026</div>
+                    <div className="text-xs sm:text-sm font-semibold leading-tight">Market share growth, partnerships</div>
+                  </div>
+                  <div>
+                    <div className="text-xs opacity-70 mb-0.5 sm:mb-1">2027</div>
+                    <div className="text-xs sm:text-sm font-semibold leading-tight">15% market share target</div>
+                  </div>
+                </div>
               </div>
             </div>
           )}
@@ -1606,37 +1781,39 @@ function App() {
       {/* Popup Modal */}
       {popupData.type && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+          className="fixed inset-0 z-[110] flex items-center justify-center p-2 sm:p-4 pb-20 sm:pb-24 bg-black/80 backdrop-blur-sm"
           onClick={() => setPopupData({ type: null })}
         >
           <div
-            className="bg-gray-900 rounded-3xl p-8 max-w-6xl w-full max-h-[90vh] overflow-y-auto border border-gray-700 shadow-2xl"
+            className="bg-gray-900 rounded-2xl sm:rounded-3xl p-4 sm:p-5 lg:p-6 max-w-6xl w-full max-h-[85vh] flex flex-col border border-gray-700 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-white">Detailed Information</h2>
+            <div className="flex items-center justify-between mb-3 sm:mb-4 flex-shrink-0">
+              <h2 className="text-sm sm:text-base lg:text-lg font-bold text-white">Detailed Information</h2>
               <button
                 onClick={() => setPopupData({ type: null })}
-                className="w-10 h-10 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 transition-colors"
+                className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 transition-colors text-sm sm:text-base"
                 aria-label="Close"
               >
                 ✕
               </button>
             </div>
-            {renderPopupContent()}
+            <div className="flex-1 overflow-y-auto pr-1 sm:pr-2">
+              {renderPopupContent()}
+            </div>
           </div>
         </div>
       )}
 
       {/* Bottom Navigation */}
-      <footer className="fixed bottom-0 left-0 right-0 z-50 bg-white/70 dark:bg-black/70 backdrop-blur-md border-t border-gray-100 dark:border-gray-800">
-        <div className="max-w-7xl mx-auto px-6 py-3">
-          <div className="flex items-center justify-between">
+      <footer className="fixed bottom-0 left-0 right-0 z-[100] backdrop-blur-md pointer-events-none">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
+          <div className="flex items-center justify-between pointer-events-auto">
             {/* Previous Button */}
             <button
               onClick={() => navigateSlide('prev')}
               disabled={currentSlide === slides[0]}
-              className="w-10 h-10 rounded-lg flex items-center justify-center text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200"
+              className="w-12 h-12 rounded-full flex items-center justify-center text-white/90 hover:text-white bg-black/20 hover:bg-black/40 backdrop-blur-sm disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200 shadow-lg"
               aria-label="Previous slide"
             >
               ←
@@ -1650,8 +1827,8 @@ function App() {
                   onClick={() => setCurrentSlide(slide)}
                   className={`rounded-full transition-all duration-300 ${
                     currentSlide === slide
-                      ? 'bg-black dark:bg-gray-100 w-6 h-1.5'
-                      : 'bg-gray-300 dark:bg-gray-700 w-1.5 h-1.5'
+                      ? 'bg-white/90 w-6 h-1.5'
+                      : 'bg-white/40 w-1.5 h-1.5'
                   }`}
                   aria-label={`Go to ${slide} slide`}
                 />
@@ -1662,7 +1839,7 @@ function App() {
             <button
               onClick={() => navigateSlide('next')}
               disabled={currentSlide === slides[slides.length - 1]}
-              className="w-10 h-10 rounded-lg flex items-center justify-center text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200"
+              className="w-12 h-12 rounded-full flex items-center justify-center text-white/90 hover:text-white bg-black/20 hover:bg-black/40 backdrop-blur-sm disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200 shadow-lg"
               aria-label="Next slide"
             >
               →

@@ -27,14 +27,37 @@
 .bento-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: minmax(200px, auto);
-  gap: 1.5rem;
-  min-height: 600px;
+  grid-auto-rows: minmax(calc((100vh - 180px) / 4), 1fr);
+  gap: clamp(0.75rem, 1.5vw, 1.5rem);
+  height: calc(100vh - 180px);
+  overflow: visible;
+  padding: 0.5rem;
+  margin: -0.5rem;
 }
 
 .bento-card {
   animation: slideIn 0.4s ease-out;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.bento-card:hover {
+  z-index: 10;
+}
+
+/* Ensure rounded corners work - content inside cards can still clip */
+.bento-card {
+  border-radius: clamp(1rem, 2vw, 1.5rem);
+}
+
+/* Allow inner content to clip while card can overflow on hover */
+.bento-card > div:not(.absolute) {
+  border-radius: inherit;
 }
 
 .bento-card:hover {
@@ -46,25 +69,34 @@
 @media (max-width: 1024px) {
   .bento-grid {
     grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: minmax(calc((100vh - 180px) / 3), 1fr);
   }
 }
 
 @media (max-width: 768px) {
   .bento-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    grid-auto-rows: minmax(calc((100vh - 180px) / 2), 1fr);
+    gap: clamp(0.5rem, 1vw, 1rem);
   }
 }
 
 @media (max-width: 640px) {
   .bento-grid {
     grid-template-columns: 1fr;
+    grid-auto-rows: minmax(calc((100vh - 180px) / 4), 1fr);
   }
 }
 
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+  overflow: hidden;
+}
+
+body {
+  overflow: hidden;
+  height: 100vh;
 }
 
 /* Custom scrollbar */
@@ -118,4 +150,79 @@ img {
 .bento-card:hover img {
   transform: scale(1.05);
   filter: brightness(1);
+}
+
+/* Viewport-responsive typography */
+.bento-card h2 {
+  font-size: clamp(1.25rem, 3vw, 2rem);
+}
+
+.bento-card h3 {
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+.bento-card .text-xs {
+  font-size: clamp(0.625rem, 1.5vw, 0.75rem);
+}
+
+.bento-card .text-sm {
+  font-size: clamp(0.75rem, 1.75vw, 0.875rem);
+}
+
+.bento-card .text-base {
+  font-size: clamp(0.875rem, 2vw, 1rem);
+}
+
+.bento-card .text-lg {
+  font-size: clamp(1rem, 2.25vw, 1.125rem);
+}
+
+.bento-card .text-xl {
+  font-size: clamp(1.125rem, 2.5vw, 1.25rem);
+}
+
+.bento-card .text-2xl {
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+}
+
+.bento-card .text-3xl {
+  font-size: clamp(1.5rem, 3.5vw, 1.875rem);
+}
+
+.bento-card .text-4xl {
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+}
+
+/* Viewport-responsive padding */
+.bento-card {
+  padding: clamp(0.75rem, 1.5vw, 1.5rem);
+}
+
+.bento-card.p-6 {
+  padding: clamp(0.75rem, 1.5vw, 1.5rem);
+}
+
+.bento-card.p-8 {
+  padding: clamp(1rem, 2vw, 2rem);
+}
+
+/* Ensure text doesn't overflow */
+.bento-card {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Viewport-responsive rounded corners */
+.rounded-3xl {
+  border-radius: clamp(1rem, 2vw, 1.5rem);
+}
+
+.rounded-2xl {
+  border-radius: clamp(0.75rem, 1.5vw, 1rem);
+}
+
+/* Viewport-responsive icons in bento cards */
+.bento-card svg {
+  width: clamp(1rem, 2.5vw, 2rem);
+  height: clamp(1rem, 2.5vw, 2rem);
 }
