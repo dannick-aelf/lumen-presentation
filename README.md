@@ -1,75 +1,86 @@
-# New Design File Template
+# Lumen - AI-Powered Alignment & Wellness Platform
 
-A modern React + TypeScript + Vite template with Tailwind CSS v4.
+A comprehensive product analysis presentation for Lumen, an AI-Powered Alignment & Wellness Platform. This presentation includes competitor analysis, market research, positioning strategy, and trend forecasting.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Features
 
-Currently, two official plugins are available:
+- 🎨 **Modern Bento Grid Layout** - Beautiful, responsive card-based design
+- 🌙 **Dark Theme** - Sleek black theme with colorful gradient cards
+- 📊 **Interactive Popups** - Detailed information on clickable cards
+- 📱 **Responsive Design** - Works seamlessly on all devices
+- 📄 **PDF Export** - Download comprehensive research reports
+- 🚀 **Auto-Deployment** - Automatic deployment to GitHub Pages on every push
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
 
-## React Compiler
+- **React 19** + **TypeScript** + **Vite**
+- **Tailwind CSS v4** - Modern utility-first CSS
+- **Lucide React** - Beautiful icon library
+- **jsPDF** - PDF generation
+- **GitHub Actions** - CI/CD automation
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Development
 
-## Expanding the ESLint configuration
+```bash
+# Install dependencies
+npm install
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+# Start development server
+npm run dev
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+# Build for production
+npm run build
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Preview production build
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Deployment
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+This project uses **GitHub Actions** for automatic deployment. Every push to the `main` branch will:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. ✅ Build the project
+2. ✅ Deploy to GitHub Pages automatically
+
+### Manual Deployment
+
+If you need to deploy manually:
+
+```bash
+npm run deploy
 ```
+
+## GitHub Pages Configuration
+
+The site is automatically deployed to: **https://dannick-aelf.github.io/lumen-presentation/**
+
+### Setting up GitHub Pages with Actions
+
+1. Go to your repository settings
+2. Navigate to **Pages** section
+3. Under **Source**, select **GitHub Actions** (not "Deploy from a branch")
+4. The workflow will automatically deploy on every push to `main`
+
+## Project Structure
+
+```
+├── .github/workflows/    # GitHub Actions workflows
+├── src/
+│   ├── App.tsx          # Main application component
+│   ├── App.css          # Custom styles and animations
+│   └── index.css        # Tailwind imports
+├── public/              # Static assets
+└── dist/                # Build output (auto-generated)
+```
+
+## Workflow
+
+The `.github/workflows/deploy.yml` workflow:
+- Triggers on push to `main` branch
+- Builds the project using `npm run build`
+- Deploys to GitHub Pages automatically
+- No manual intervention required!
+
+## License
+
+Private project - All rights reserved
