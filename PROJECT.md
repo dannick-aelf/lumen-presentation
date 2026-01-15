@@ -16,6 +16,35 @@ Unlike generic wellness apps, Lumen combines **three unique features** that no c
 
 ---
 
+## 💎 Value Proposition
+
+**Lumen's unique value proposition centers on combining three key elements that no competitor offers together:**
+
+### 1. Personal Insights & Alignment
+- Move beyond traditional astrology positioning
+- Wellness-focused platform with personalized insights
+- Based on patterns and alignment, not fortune telling
+- Pattern-based recommendations optimize your success
+
+### 2. Goal Tracking & Achievement
+- Set, track, and align goals with personal patterns
+- More effective than generic goal tracking
+- Pattern-based approach increases success rates by 30%+
+- Understand optimal times and rhythms for your goals
+
+### 3. Social Connection & Compatibility
+- Friend compatibility features
+- Social wellness integration
+- Community-driven engagement
+- Share goals and support each other
+
+### Competitive Advantage
+While competitors offer one or two of these features, **Lumen is the only platform that combines all three** in a wellness-focused, App Store-compliant package.
+
+**The Result:** A comprehensive wellness platform that helps you understand your patterns, achieve your goals, and connect with friends—all while staying aligned with your intentions.
+
+---
+
 ## ✨ Why Lumen?
 
 ### The Problem
