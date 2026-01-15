@@ -24,6 +24,30 @@
   animation: fadeIn 0.5s ease-out;
 }
 
+/* Mobile: allow slide container to expand */
+@media (max-width: 767px) {
+  .slide-container {
+    min-height: auto;
+    height: auto;
+    padding: 0 !important; /* Remove any padding that might affect gap spacing */
+    margin: 0 !important;
+  }
+  
+  /* Main container - ensure consistent spacing that doesn't interfere with card gaps */
+  main {
+    padding-left: 1rem !important; /* Keep horizontal padding for screen edges */
+    padding-right: 1rem !important;
+    padding-top: 0.5rem !important; /* Minimal top padding */
+    padding-bottom: 5rem !important; /* Bottom padding to ensure last card is visible above navigation (nav height ~80px) */
+  }
+  
+  /* Bento grid - add extra bottom spacing for navigation */
+  .bento-grid {
+    padding-bottom: 1rem !important; /* Extra bottom padding to ensure last card is visible above navigation */
+    margin-bottom: 0 !important;
+  }
+}
+
 .bento-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -35,6 +59,46 @@
   margin: -0.5rem;
 }
 
+/* Mobile: containers hug content, allow scrolling, single column */
+@media (max-width: 767px) {
+  .bento-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important; /* Force single column on mobile */
+    grid-auto-rows: auto !important; /* Rows hug content */
+    grid-template-rows: none !important; /* Remove any fixed row template */
+    height: auto !important; /* Hug content height */
+    min-height: auto !important;
+    max-height: none !important;
+    width: 100% !important; /* Full width */
+    padding: 0 !important; /* Remove padding to ensure gap rules apply consistently */
+    padding-bottom: 1rem !important; /* Bottom padding to ensure last card is visible above navigation */
+    margin: 0 !important; /* Remove margin to ensure gap rules apply consistently */
+    gap: 0.125rem; /* Consistent gap for all cards - hero to second, second to third, etc. */
+    row-gap: 0.125rem; /* Ensure vertical gap is consistent */
+    column-gap: 0.125rem; /* Ensure horizontal gap is consistent (though single column) */
+  }
+  
+  /* Remove all span classes on mobile - force single column */
+  .bento-grid > * {
+    grid-column: 1 / -1 !important; /* Force to single column */
+    grid-row: auto !important; /* Auto row placement */
+    grid-column-start: 1 !important;
+    grid-column-end: -1 !important;
+    margin: 0 !important; /* Remove any margins that might create uneven spacing */
+  }
+  
+  /* Ensure no special spacing for first card */
+  .bento-grid > .bento-card:first-child {
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+  }
+  
+  /* Ensure no special spacing for last card */
+  .bento-grid > .bento-card:last-child {
+    margin-bottom: 0 !important;
+  }
+}
+
 .bento-card {
   animation: slideIn 0.4s ease-out;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -44,6 +108,101 @@
   height: 100%;
   position: relative;
   z-index: 1;
+}
+
+/* Mobile: cards hug content with increased padding - consistent across all cards */
+@media (max-width: 767px) {
+  .bento-card {
+    height: auto !important;
+    min-height: auto;
+    max-height: none; /* Allow cards to grow naturally based on content */
+    padding: 1.25rem !important; /* Consistent padding for all cards on mobile - overrides p-3, p-4, p-5, p-6, p-8 */
+  }
+  
+  /* Only the large hero card (col-span-2 row-span-2) should be taller - EXCEPT for competitors and market slides */
+  .bento-grid:not([data-slide="competitors"]):not([data-slide="market"]) > .bento-card.col-span-2.row-span-2:first-child {
+    min-height: 200px;
+  }
+  
+  /* All other cards (non-hero) should hug content completely */
+  .bento-grid > .bento-card:not(.col-span-2.row-span-2) {
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    flex-shrink: 0; /* Don't shrink */
+    flex-grow: 0; /* Don't grow - hug content */
+    align-self: flex-start; /* Align to start, don't stretch */
+  }
+  
+  /* Ensure flex containers inside non-hero cards don't stretch */
+  .bento-grid > .bento-card:not(.col-span-2.row-span-2).flex.flex-col {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  
+  /* Remove justify-between on non-hero cards to prevent empty space */
+  .bento-grid > .bento-card:not(.col-span-2.row-span-2).justify-between {
+    justify-content: flex-start !important;
+  }
+  
+  /* Ensure all divs inside non-hero cards hug content */
+  .bento-grid > .bento-card:not(.col-span-2.row-span-2) > * {
+    flex-shrink: 0;
+    width: auto;
+    height: auto;
+  }
+  
+  /* Ensure flex containers don't stretch unnecessarily */
+  .bento-card.flex.flex-col {
+    align-items: stretch;
+  }
+  
+  /* Reduce icon sizes on mobile (but keep them readable) */
+  .bento-card svg {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+  }
+  
+  /* Compact text spacing */
+  .bento-card h2,
+  .bento-card h3 {
+    margin-bottom: 0.5rem !important;
+  }
+  
+  /* Reduce spacing inside cards on mobile */
+  .bento-card .space-y-1\.5 > * + *,
+  .bento-card .space-y-2 > * + *,
+  .bento-card .space-y-3 > * + *,
+  .bento-card .space-y-4 > * + * {
+    margin-top: 0.5rem !important;
+  }
+  
+  /* Reduce margins inside cards */
+  .bento-card .mb-1,
+  .bento-card .mb-1\.5,
+  .bento-card .mb-2,
+  .bento-card .mb-3,
+  .bento-card .mb-4,
+  .bento-card .mb-6 {
+    margin-bottom: 0.5rem !important;
+  }
+  
+  .bento-card .mt-1,
+  .bento-card .mt-1\.5,
+  .bento-card .mt-2,
+  .bento-card .mt-3,
+  .bento-card .mt-4 {
+    margin-top: 0.5rem !important;
+  }
+  
+  /* Reduce gaps */
+  .bento-card .gap-1,
+  .bento-card .gap-1\.5,
+  .bento-card .gap-2,
+  .bento-card .gap-3,
+  .bento-card .gap-4 {
+    gap: 0.5rem !important;
+  }
 }
 
 .bento-card:hover {
@@ -76,30 +235,54 @@
 @media (max-width: 768px) {
   .bento-grid {
     grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: minmax(calc((100vh - 180px) / 2), 1fr);
     gap: clamp(0.5rem, 1vw, 1rem);
   }
 }
 
 @media (max-width: 640px) {
   .bento-grid {
-    grid-template-columns: 1fr;
-    grid-auto-rows: minmax(calc((100vh - 180px) / 4), 1fr);
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Remove all span classes on mobile - force single column */
+  .bento-grid > * {
+    grid-column: 1 !important;
+    grid-row: auto !important;
   }
 }
 
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
-  overflow: hidden;
 }
 
-body {
-  overflow: hidden;
-  height: 100vh;
+/* Desktop: prevent overflow, Mobile: allow scrolling */
+@media (min-width: 768px) {
+  html {
+    overflow: hidden;
+  }
+  
+  body {
+    overflow: hidden;
+    height: 100vh;
+  }
 }
 
-/* Custom scrollbar */
+/* Mobile: allow scrolling */
+@media (max-width: 767px) {
+  html {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  
+  body {
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+}
+
+/* Custom scrollbar - hidden on mobile */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -127,6 +310,27 @@ body {
 
 .dark ::-webkit-scrollbar-thumb:hover {
   background: #4b5563;
+}
+
+/* Hide scrollbar on mobile */
+@media (max-width: 767px) {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  ::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  * {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  /* Ensure scrolling still works */
+  html {
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 /* Dark mode transitions */
@@ -162,35 +366,82 @@ img {
 }
 
 .bento-card .text-xs {
-  font-size: clamp(0.625rem, 1.5vw, 0.75rem);
+  font-size: clamp(0.75rem, 1.5vw, 0.75rem);
 }
 
 .bento-card .text-sm {
-  font-size: clamp(0.75rem, 1.75vw, 0.875rem);
+  font-size: clamp(0.875rem, 1.75vw, 0.875rem);
 }
 
 .bento-card .text-base {
-  font-size: clamp(0.875rem, 2vw, 1rem);
+  font-size: clamp(1rem, 2vw, 1rem);
 }
 
 .bento-card .text-lg {
-  font-size: clamp(1rem, 2.25vw, 1.125rem);
+  font-size: clamp(1.125rem, 2.25vw, 1.125rem);
 }
 
 .bento-card .text-xl {
-  font-size: clamp(1.125rem, 2.5vw, 1.25rem);
+  font-size: clamp(1.25rem, 2.5vw, 1.25rem);
 }
 
 .bento-card .text-2xl {
-  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  font-size: clamp(1.5rem, 3vw, 1.5rem);
 }
 
 .bento-card .text-3xl {
-  font-size: clamp(1.5rem, 3.5vw, 1.875rem);
+  font-size: clamp(1.75rem, 3.5vw, 1.875rem);
 }
 
 .bento-card .text-4xl {
-  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-size: clamp(2rem, 4vw, 2.25rem);
+}
+
+/* Mobile: Ensure minimum legible font sizes (16px for body text) */
+@media (max-width: 767px) {
+  .bento-card {
+    font-size: 16px; /* Base font size for mobile */
+  }
+  
+  .bento-card h2 {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+  }
+  
+  .bento-card h3 {
+    font-size: clamp(1.25rem, 3.5vw, 1.5rem);
+  }
+  
+  .bento-card .text-xs {
+    font-size: 14px; /* Minimum readable size */
+  }
+  
+  .bento-card .text-sm {
+    font-size: 15px;
+  }
+  
+  .bento-card .text-base {
+    font-size: 16px; /* Standard mobile body text */
+  }
+  
+  .bento-card .text-lg {
+    font-size: 18px;
+  }
+  
+  .bento-card .text-xl {
+    font-size: 20px;
+  }
+  
+  .bento-card .text-2xl {
+    font-size: 24px;
+  }
+  
+  .bento-card .text-3xl {
+    font-size: 30px;
+  }
+  
+  .bento-card .text-4xl {
+    font-size: 36px;
+  }
 }
 
 /* Viewport-responsive padding */
@@ -206,10 +457,35 @@ img {
   padding: clamp(1rem, 2vw, 2rem);
 }
 
+/* Mobile: ensure all cards have consistent padding */
+@media (max-width: 767px) {
+  .bento-card.p-3,
+  .bento-card.p-4,
+  .bento-card.p-5,
+  .bento-card.p-6,
+  .bento-card.p-8 {
+    padding: 1.25rem !important; /* Consistent padding for all cards */
+  }
+}
+
 /* Ensure text doesn't overflow */
 .bento-card {
   word-wrap: break-word;
   overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Mobile: additional text overflow protection */
+@media (max-width: 767px) {
+  .bento-card {
+    overflow-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+  }
+  
+  .bento-card * {
+    max-width: 100%;
+  }
 }
 
 /* Viewport-responsive rounded corners */

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import {
   TrendingUp,
   Users,
@@ -414,70 +414,113 @@ function App() {
     return () => window.removeEventListener('keydown', handleKeyPress)
   }, [currentSlide])
 
+  // Swipe navigation for mobile
+  useEffect(() => {
+    let touchStartX = 0
+    let touchEndX = 0
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartX = e.changedTouches[0].screenX
+    }
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      touchEndX = e.changedTouches[0].screenX
+      handleSwipe()
+    }
+
+    const handleSwipe = () => {
+      const swipeThreshold = 50 // Minimum swipe distance
+      const diff = touchStartX - touchEndX
+
+      if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+          // Swipe left - next slide
+          navigateSlide('next')
+        } else {
+          // Swipe right - previous slide
+          navigateSlide('prev')
+        }
+      }
+    }
+
+    const mainElement = document.querySelector('main')
+    if (mainElement) {
+      mainElement.addEventListener('touchstart', handleTouchStart, { passive: true })
+      mainElement.addEventListener('touchend', handleTouchEnd, { passive: true })
+    }
+
+    return () => {
+      if (mainElement) {
+        mainElement.removeEventListener('touchstart', handleTouchStart)
+        mainElement.removeEventListener('touchend', handleTouchEnd)
+      }
+    }
+  }, [navigateSlide])
+
   const renderPopupContent = () => {
     if (!popupData.type) return null
 
     switch (popupData.type) {
       case 'competitor':
         const competitor = popupData.data as Competitor
-        return (
+  return (
           <div className="space-y-4 sm:space-y-5">
             {/* Header Section */}
             <div className="flex items-start gap-4 pb-4 border-b border-gray-700">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-2">
                   <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 text-purple-400" />
-                  <h3 className="text-lg sm:text-xl font-bold text-white">{competitor.name}</h3>
-                </div>
+                  <h3 className="text-xl sm:text-xl font-bold text-white">{competitor.name}</h3>
+      </div>
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="px-2 py-1 bg-gray-800 text-gray-300 rounded-md text-xs font-medium">{competitor.category}</span>
-                  <span className="px-2 py-1 bg-purple-500/20 text-purple-300 rounded-md text-xs font-medium">{competitor.marketShare}% Market Share</span>
+                  <span className="px-2 py-1 bg-gray-800 text-gray-300 rounded-md text-sm font-medium">{competitor.category}</span>
+                  <span className="px-2 py-1 bg-purple-500/20 text-purple-300 rounded-md text-sm font-medium">{competitor.marketShare}% Market Share</span>
                 </div>
               </div>
             </div>
 
             {/* Key Metrics Grid */}
-            <div className="grid grid-cols-4 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
               <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
                 <div className="flex items-center gap-2 mb-2">
                   <PieChart className="w-4 h-4 text-blue-400" />
-                  <div className="text-xs text-gray-400">Market Share</div>
+                  <div className="text-sm text-gray-400">Market Share</div>
                 </div>
                 <div className="text-xl sm:text-2xl font-bold text-white">{competitor.marketShare}%</div>
               </div>
               <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
                 <div className="flex items-center gap-2 mb-2">
                   <Users className="w-4 h-4 text-emerald-400" />
-                  <div className="text-xs text-gray-400">Users</div>
+                  <div className="text-sm text-gray-400">Users</div>
                 </div>
                 <div className="text-xl sm:text-2xl font-bold text-white">{competitor.users}</div>
               </div>
               <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
                 <div className="flex items-center gap-2 mb-2">
                   <DollarSign className="w-4 h-4 text-yellow-400" />
-                  <div className="text-xs text-gray-400">Pricing</div>
+                  <div className="text-sm text-gray-400">Pricing</div>
                 </div>
-                <div className="text-xs sm:text-sm text-white leading-tight">{competitor.pricing}</div>
+                <div className="text-sm text-white leading-tight">{competitor.pricing}</div>
               </div>
               <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
                 <div className="flex items-center gap-2 mb-2">
                   <Target className="w-4 h-4 text-pink-400" />
-                  <div className="text-xs text-gray-400">Positioning</div>
+                  <div className="text-sm text-gray-400">Positioning</div>
                 </div>
-                <div className="text-xs sm:text-sm text-white leading-tight">{competitor.positioning}</div>
+                <div className="text-sm text-white leading-tight">{competitor.positioning}</div>
               </div>
             </div>
 
             {/* Strengths & Weaknesses */}
-            <div className="grid grid-cols-2 gap-4 sm:gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
               <div className="bg-emerald-500/10 rounded-lg p-4 border border-emerald-500/20">
-                <h4 className="text-sm sm:text-base font-semibold text-emerald-400 mb-3 flex items-center gap-2">
+                <h4 className="text-base sm:text-base font-semibold text-emerald-400 mb-3 flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5" />
                   Strengths
                 </h4>
                 <ul className="space-y-2">
                   {competitor.strengths.map((strength, i) => (
-                    <li key={i} className="flex items-start gap-2 text-gray-300 text-xs sm:text-sm leading-relaxed">
+                    <li key={i} className="flex items-start gap-2 text-gray-300 text-sm leading-relaxed">
                       <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 flex-shrink-0" />
                       <span>{strength}</span>
                     </li>
@@ -485,13 +528,13 @@ function App() {
                 </ul>
               </div>
               <div className="bg-red-500/10 rounded-lg p-4 border border-red-500/20">
-                <h4 className="text-sm sm:text-base font-semibold text-red-400 mb-3 flex items-center gap-2">
+                <h4 className="text-base sm:text-base font-semibold text-red-400 mb-3 flex items-center gap-2">
                   <TrendingDown className="w-4 h-4 sm:w-5 sm:h-5" />
                   Weaknesses
                 </h4>
                 <ul className="space-y-2">
                   {competitor.weaknesses.map((weakness, i) => (
-                    <li key={i} className="flex items-start gap-2 text-gray-300 text-xs sm:text-sm leading-relaxed">
+                    <li key={i} className="flex items-start gap-2 text-gray-300 text-sm leading-relaxed">
                       <div className="w-1.5 h-1.5 rounded-full bg-red-400 mt-1.5 flex-shrink-0" />
                       <span>{weakness}</span>
                     </li>
@@ -504,15 +547,15 @@ function App() {
             <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
               <div className="flex items-start gap-2 mb-2">
                 <Sparkles className="w-4 h-4 text-purple-400 mt-0.5 flex-shrink-0" />
-                <h4 className="text-sm font-semibold text-white">Competitive Analysis</h4>
+                <h4 className="text-base font-semibold text-white">Competitive Analysis</h4>
               </div>
-              <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
+              <p className="text-sm text-gray-300 leading-relaxed">
                 {competitor.name} represents {competitor.marketShare}% of the market with {competitor.users} users. Their{' '}
                 {competitor.category.toLowerCase()} positioning focuses on {competitor.positioning.toLowerCase()}. Key differentiators include {competitor.strengths[0].toLowerCase()} and{' '}
                 {competitor.strengths[1].toLowerCase()}, while their main challenges are{' '}
                 {competitor.weaknesses[0].toLowerCase()} and {competitor.weaknesses[1].toLowerCase()}.
-              </p>
-            </div>
+        </p>
+      </div>
           </div>
         )
 
@@ -528,8 +571,8 @@ function App() {
                   <h3 className="text-lg sm:text-xl font-bold text-white">{segment.name}</h3>
                 </div>
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="px-2 py-1 bg-blue-500/20 text-blue-300 rounded-md text-xs font-medium">Market Segment</span>
-                  <span className="px-2 py-1 bg-emerald-500/20 text-emerald-300 rounded-md text-xs font-medium">{segment.growth} Growth</span>
+                  <span className="px-2 py-1 bg-blue-500/20 text-blue-300 rounded-md text-sm font-medium">Market Segment</span>
+                  <span className="px-2 py-1 bg-emerald-500/20 text-emerald-300 rounded-md text-sm font-medium">{segment.growth} Growth</span>
                 </div>
               </div>
             </div>
@@ -539,14 +582,14 @@ function App() {
               <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
                 <div className="flex items-center gap-2 mb-2">
                   <DollarSign className="w-4 h-4 text-yellow-400" />
-                  <div className="text-xs text-gray-400">Market Size</div>
+                  <div className="text-sm text-gray-400">Market Size</div>
                 </div>
                 <div className="text-2xl sm:text-3xl font-bold text-white">{segment.size}</div>
               </div>
               <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
                 <div className="flex items-center gap-2 mb-2">
                   <TrendingUp className="w-4 h-4 text-emerald-400" />
-                  <div className="text-xs text-gray-400">Growth Rate</div>
+                  <div className="text-sm text-gray-400">Growth Rate</div>
                 </div>
                 <div className="text-2xl sm:text-3xl font-bold text-emerald-400">{segment.growth}</div>
               </div>
@@ -559,14 +602,14 @@ function App() {
                   <Rocket className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
                   <h4 className="text-sm sm:text-base font-semibold text-white">Opportunity</h4>
                 </div>
-                <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">{segment.opportunity}</p>
+                <p className="text-gray-300 text-sm leading-relaxed">{segment.opportunity}</p>
               </div>
               <div className="bg-purple-500/10 rounded-lg p-4 border border-purple-500/20">
                 <div className="flex items-center gap-2 mb-3">
                   <Target className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" />
-                  <h4 className="text-sm sm:text-base font-semibold text-white">Lumen Fit</h4>
+                  <h4 className="text-base sm:text-base font-semibold text-white">Lumen Fit</h4>
                 </div>
-                <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">{segment.lumenFit}</p>
+                <p className="text-gray-300 text-sm leading-relaxed">{segment.lumenFit}</p>
               </div>
             </div>
 
@@ -574,9 +617,9 @@ function App() {
             <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
               <div className="flex items-start gap-2 mb-2">
                 <BarChart3 className="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" />
-                <h4 className="text-sm font-semibold text-white">Market Analysis</h4>
+                <h4 className="text-base font-semibold text-white">Market Analysis</h4>
               </div>
-              <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
+              <p className="text-sm text-gray-300 leading-relaxed">
                 The {segment.name.toLowerCase()} segment represents a {segment.size} market opportunity with {segment.growth} growth. This segment aligns{' '}
                 {segment.lumenFit.toLowerCase()} with Lumen's core value proposition, making it a strategic target for
                 market entry and expansion.
@@ -625,9 +668,9 @@ function App() {
                     <div key={i} className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
                       <div className="flex items-center gap-2 mb-2">
                         <Zap className="w-4 h-4 text-yellow-400" />
-                        <h5 className="text-xs sm:text-sm font-semibold text-white">{label}:</h5>
+                        <h5 className="text-sm font-semibold text-white">{label}:</h5>
                       </div>
-                      <p className="text-xs sm:text-sm text-gray-300 leading-relaxed ml-6">{rest.join(':').trim()}</p>
+                      <p className="text-sm text-gray-300 leading-relaxed ml-6">{rest.join(':').trim()}</p>
                     </div>
                   )
                 }
@@ -636,13 +679,13 @@ function App() {
                   return (
                     <div key={i} className={`flex items-start gap-3 ${indent === 2 ? 'ml-4' : ''}`}>
                       <div className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${indent === 2 ? 'bg-purple-400' : 'bg-cyan-400'}`} />
-                      <p className="text-xs sm:text-sm text-gray-300 leading-relaxed flex-1">{detail.replace(/^[\s•]*/, '')}</p>
+                      <p className="text-sm text-gray-300 leading-relaxed flex-1">{detail.replace(/^[\s•]*/, '')}</p>
                     </div>
                   )
                 }
 
                 return (
-                  <p key={i} className="text-xs sm:text-sm text-gray-300 leading-relaxed">{detail}</p>
+                  <p key={i} className="text-sm text-gray-300 leading-relaxed">{detail}</p>
                 )
               })}
             </div>
@@ -692,9 +735,9 @@ function App() {
                     <div key={i} className="bg-gray-800/50 rounded-lg p-3 border border-gray-700 ml-9">
                       <div className="flex items-center gap-2 mb-2">
                         <Target className="w-3 h-3 text-emerald-400" />
-                        <h5 className="text-xs sm:text-sm font-semibold text-white">{label}:</h5>
+                        <h5 className="text-sm font-semibold text-white">{label}:</h5>
                       </div>
-                      <p className="text-xs sm:text-sm text-gray-300 leading-relaxed ml-5">{rest.join(':').trim()}</p>
+                      <p className="text-sm text-gray-300 leading-relaxed ml-5">{rest.join(':').trim()}</p>
                     </div>
                   )
                 }
@@ -703,13 +746,13 @@ function App() {
                   return (
                     <div key={i} className={`flex items-start gap-3 ${indent === 2 ? 'ml-9' : 'ml-9'}`}>
                       <div className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${indent === 2 ? 'bg-teal-400' : 'bg-emerald-400'}`} />
-                      <p className="text-xs sm:text-sm text-gray-300 leading-relaxed flex-1">{detail.replace(/^[\s•]*/, '')}</p>
+                      <p className="text-sm text-gray-300 leading-relaxed flex-1">{detail.replace(/^[\s•]*/, '')}</p>
                     </div>
                   )
                 }
 
                 return (
-                  <p key={i} className="text-xs sm:text-sm text-gray-300 leading-relaxed">{detail}</p>
+                  <p key={i} className="text-sm text-gray-300 leading-relaxed">{detail}</p>
                 )
               })}
             </div>
@@ -722,7 +765,7 @@ function App() {
   }
 
   return (
-    <div className="h-screen overflow-hidden transition-colors duration-500 dark bg-gradient-to-br from-black via-gray-900 to-black flex flex-col">
+    <div className="h-screen sm:h-screen min-h-screen overflow-y-auto sm:overflow-hidden transition-colors duration-500 dark bg-gradient-to-br from-black via-gray-900 to-black flex flex-col">
       {/* Header */}
       <header className="flex-shrink-0 z-50 bg-white/60 dark:bg-black/60 backdrop-blur-md border-b border-gray-100 dark:border-gray-800">
         <nav className="max-w-7xl mx-auto px-4 py-2">
@@ -746,10 +789,10 @@ function App() {
       <main className="flex-1 overflow-visible max-w-7xl mx-auto w-full px-4 sm:px-6 py-4">
 
         {/* Slide Content */}
-        <div className="slide-container h-full">
+        <div className="slide-container h-full sm:h-full min-h-0 sm:min-h-0 touch-pan-y">
           {/* Overview Slide */}
           {currentSlide === 'overview' && (
-            <div className="bento-grid">
+            <div className="bento-grid" data-slide="overview">
               <div className="bento-card col-span-2 row-span-2 bg-gradient-to-br from-purple-600 via-pink-600 to-rose-600 text-white rounded-3xl p-4 sm:p-6 lg:p-8 flex flex-col justify-between">
                 <div>
                   <div className="flex items-center gap-1.5 sm:gap-2 lg:gap-3 mb-2 sm:mb-3 lg:mb-4">
@@ -910,7 +953,7 @@ function App() {
 
           {/* Product Slide */}
           {currentSlide === 'product' && (
-            <div className="bento-grid">
+            <div className="bento-grid" data-slide="product">
               <div className="bento-card col-span-2 row-span-2 bg-gradient-to-br from-purple-600 via-pink-600 to-rose-600 text-white rounded-3xl p-3 sm:p-4 lg:p-6 flex flex-col">
                 <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3 flex-shrink-0">
                   <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 flex-shrink-0" />
@@ -1030,7 +1073,7 @@ function App() {
 
           {/* Competitors Slide */}
           {currentSlide === 'competitors' && (
-            <div className="bento-grid">
+            <div className="bento-grid" data-slide="competitors">
               {competitors.map((competitor, index) => (
                 <div
                   key={index}
@@ -1101,7 +1144,7 @@ function App() {
 
           {/* Market Slide */}
           {currentSlide === 'market' && (
-            <div className="bento-grid">
+            <div className="bento-grid" data-slide="market">
               {marketSegments.map((segment, index) => {
                 const colors = [
                   'from-blue-500 to-cyan-600',
@@ -1211,7 +1254,7 @@ function App() {
 
           {/* Positioning Slide */}
           {currentSlide === 'positioning' && (
-            <div className="bento-grid">
+            <div className="bento-grid" data-slide="positioning">
               <div className="bento-card col-span-2 row-span-2 bg-gradient-to-br from-purple-600 via-pink-600 to-rose-600 text-white rounded-3xl p-4 sm:p-6 lg:p-8 flex flex-col">
                 <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4 lg:mb-6 flex-shrink-0">
                   <Target className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7" />
@@ -1389,7 +1432,7 @@ function App() {
 
           {/* Strategy Slide */}
           {currentSlide === 'strategy' && (
-            <div className="bento-grid">
+            <div className="bento-grid" data-slide="strategy">
               <div className="bento-card col-span-2 row-span-2 bg-gradient-to-br from-purple-600 via-pink-600 to-rose-600 text-white rounded-3xl p-4 sm:p-6 lg:p-8 flex flex-col">
                 <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4 lg:mb-6 flex-shrink-0">
                   <Rocket className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7" />
@@ -1552,7 +1595,7 @@ function App() {
 
           {/* Market Positioning Summary Slide */}
           {currentSlide === 'summary' && (
-            <div className="bento-grid">
+            <div className="bento-grid" data-slide="summary">
               <div className="bento-card col-span-2 row-span-2 bg-gradient-to-br from-purple-600 via-pink-600 to-rose-600 text-white rounded-3xl p-4 sm:p-6 lg:p-8 flex flex-col">
                 <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4 lg:mb-6 flex-shrink-0">
                   <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7" />
@@ -1645,7 +1688,7 @@ function App() {
 
           {/* Trend Forecast Slide */}
           {currentSlide === 'forecast' && (
-            <div className="bento-grid">
+            <div className="bento-grid" data-slide="forecast">
               <div
                 onClick={() => setPopupData({
                   type: 'metric',
@@ -1780,24 +1823,24 @@ function App() {
       {/* Popup Modal */}
       {popupData.type && (
         <div
-          className="fixed inset-0 z-[110] flex items-center justify-center p-2 sm:p-4 pb-20 sm:pb-24 bg-black/80 backdrop-blur-sm"
+          className="fixed inset-0 z-[110] flex items-center justify-center p-0 sm:p-2 md:p-4 pb-0 sm:pb-20 md:pb-24 bg-black/80 backdrop-blur-sm"
           onClick={() => setPopupData({ type: null })}
         >
           <div
-            className="bg-gray-900 rounded-2xl sm:rounded-3xl p-4 sm:p-5 lg:p-6 max-w-6xl w-full max-h-[85vh] flex flex-col border border-gray-700 shadow-2xl"
+            className="bg-gray-900 rounded-none sm:rounded-2xl md:rounded-3xl p-4 sm:p-5 lg:p-6 max-w-6xl w-full h-full sm:h-auto sm:max-h-[85vh] flex flex-col border-0 sm:border border-gray-700 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-3 sm:mb-4 flex-shrink-0">
-              <h2 className="text-sm sm:text-base lg:text-lg font-bold text-white">Detailed Information</h2>
+              <h2 className="text-base sm:text-base lg:text-lg font-bold text-white">Detailed Information</h2>
               <button
                 onClick={() => setPopupData({ type: null })}
-                className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 transition-colors text-sm sm:text-base"
+                className="w-8 h-8 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 transition-colors text-lg sm:text-base"
                 aria-label="Close"
               >
                 ✕
               </button>
             </div>
-            <div className="flex-1 overflow-y-auto pr-1 sm:pr-2">
+            <div className="flex-1 overflow-y-auto pr-1 sm:pr-2 -mr-1 sm:mr-0">
               {renderPopupContent()}
             </div>
           </div>
